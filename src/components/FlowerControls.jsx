@@ -24,11 +24,13 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
   }
 
   const createFlowerComposition = (name) => {
-    const viewportWidth = window.innerWidth
-    const viewportHeight = window.innerHeight
+    // Используем фиксированные большие размеры для генерации координат,
+    // чтобы цветы равномерно распределялись по полю независимо от устройства
+    const gardenWidth = 2400  // Фиксированная ширина поля сада
+    const gardenHeight = 1400  // Фиксированная высота поля сада
 
-    const x = 100 + Math.random() * (viewportWidth - 200)
-    const y = viewportHeight * 0.5 + Math.random() * (viewportHeight * 0.4)
+    const x = 100 + Math.random() * (gardenWidth - 200)
+    const y = gardenHeight * 0.5 + Math.random() * (gardenHeight * 0.4)
 
     const flowerData = {
       id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
