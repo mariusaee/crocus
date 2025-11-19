@@ -111,6 +111,40 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
     showNotification(`🌸 Цветок "${name}" посажен!`)
   }
 
+  const plantRandomFlower = () => {
+    if (!userName.trim()) {
+      showNotification('🌷 Сначала введите ваше имя!')
+      return
+    }
+
+    const garden = gardenRef.current
+    const rect = garden.getBoundingClientRect()
+    let attempts = 0
+    const maxAttempts = 50
+
+    // Пытаемся найти случайное свободное место
+    while (attempts < maxAttempts) {
+      const x = 60 + Math.random() * (rect.width - 120)
+      const y = 40 + Math.random() * (rect.height - 120)
+
+      const minDistance = 100
+      const tooClose = existingFlowers.some(item => {
+        const dx = item.x - x
+        const dy = item.y - y
+        return Math.sqrt(dx * dx + dy * dy) < minDistance
+      })
+
+      if (!tooClose) {
+        createFlowerComposition(x, y, userName.trim())
+        return
+      }
+
+      attempts++
+    }
+
+    showNotification('😔 Не хватает места для нового цветка!')
+  }
+
   const plantRandomFlowers = () => {
     if (!userName.trim()) {
       showNotification('🌷 Сначала введите ваше имя!')
@@ -272,6 +306,9 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
         </div>
 
         <div className="button-group-panel">
+          <button className="action-button add-one-button" onClick={plantRandomFlower}>
+            🌺 Посадить 1 цветок
+          </button>
           <button className="action-button random-button" onClick={plantRandomFlowers}>
             🌸 Посадить 5 цветов
           </button>

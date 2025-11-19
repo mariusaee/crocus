@@ -136,6 +136,10 @@
   transform: translateY(0) scale(0.98);
 }
 
+.add-one-button {
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+}
+
 .random-button {
   background: linear-gradient(135deg, #f39c12, #e67e22);
 }
