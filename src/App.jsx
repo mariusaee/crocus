@@ -26,7 +26,7 @@ function App() {
     localStorage.setItem('guests', JSON.stringify(guests))
   }, [guests])
 
-  // Автоматическое обновление: слушатель события storage (для синхронизации между вкладками)
+  // Реактивное обновление при изменении localStorage в других вкладках
   useEffect(() => {
     const handleStorageChange = (e) => {
       if (e.key === 'guests') {
@@ -37,22 +37,6 @@ function App() {
     window.addEventListener('storage', handleStorageChange)
     return () => window.removeEventListener('storage', handleStorageChange)
   }, [])
-
-  // Автоматическое обновление: периодическая проверка каждые 2 секунды
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const savedGuests = localStorage.getItem('guests')
-      if (savedGuests) {
-        const parsedGuests = JSON.parse(savedGuests)
-        // Обновляем только если данные изменились
-        if (JSON.stringify(parsedGuests) !== JSON.stringify(guests)) {
-          setGuests(parsedGuests)
-        }
-      }
-    }, 2000)
-
-    return () => clearInterval(interval)
-  }, [guests])
 
   const addGuest = (name) => {
     const newGuest = {
