@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './FlowerControls.css'
 
-const flowers = ['flower-1.png', 'flower-2.png']
-const signs = ['1.png', '2.png', '3.png']
+const flowers = ['flower1.png', 'flower2.png']
+const signs = ['sign1.png', 'sign2.png', 'sign3.png']
 const animations = ['spiral', 'bounce', 'zoom', 'flip', 'elastic', 'wave']
 const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce']
 const particleTypes = ['star', 'petal', 'sparkle', 'heart', 'butterfly']

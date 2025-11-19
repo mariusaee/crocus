@@ -169,7 +169,7 @@
 .interactive-garden {
   flex: 1;
   position: relative;
-  background-image: url('/crocus/backbround.png');
+  background-image: url('/crocus/background.png');
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;
