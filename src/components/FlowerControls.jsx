@@ -62,6 +62,17 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
     }
   }
 
+  const plant100Flowers = () => {
+    const confirmed = confirm('Посадить 100 цветков с номерами от 1 до 100? Это займёт около 20 секунд.')
+    if (!confirmed) return
+
+    for (let i = 1; i <= 100; i++) {
+      setTimeout(() => {
+        createFlowerComposition(String(i))
+      }, (i - 1) * 200)
+    }
+  }
+
   const removeLastFlower = () => {
     if (existingFlowers.length === 0) {
       alert('🌱 Сад пуст, нечего удалять!')
@@ -145,6 +156,9 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
           </button>
           <button className="action-button random-button" onClick={plantRandomFlowers}>
             🌸 Посадить 5 цветов
+          </button>
+          <button className="action-button random-button" onClick={plant100Flowers}>
+            🌻 Посадить 100 цветов
           </button>
           <button className="action-button remove-button" onClick={removeLastFlower}>
             🗑️ Удалить последний
