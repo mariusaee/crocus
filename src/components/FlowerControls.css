@@ -152,17 +152,134 @@
   background: linear-gradient(135deg, #48c774, #3abb67);
 }
 
-@media (max-width: 768px) {
+/* Планшеты и маленькие ноутбуки */
+@media (max-width: 1024px) {
   .controls-panel {
     width: 100%;
-    padding: 20px 15px;
+    max-width: 100%;
+  }
+}
+
+/* Мобильные устройства */
+@media (max-width: 768px) {
+  .flower-controls-container {
+    height: auto;
+    min-height: calc(100vh - 60px);
+  }
+
+  .controls-panel {
+    width: 100%;
+    padding: 25px 20px;
+    box-shadow: none;
+    min-height: calc(100vh - 60px);
+  }
+
+  .panel-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+    justify-content: center;
+  }
+
+  .title-icon {
+    font-size: 28px;
+  }
+
+  .control-group {
+    margin-bottom: 18px;
+  }
+
+  .control-group label {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  .control-group input[type="text"],
+  .control-group select {
+    padding: 14px 16px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+
+  .button-group-panel {
+    gap: 14px;
+    margin-top: 30px;
+  }
+
+  .action-button {
+    padding: 16px 24px;
+    font-size: 16px;
+    border-radius: 14px;
+    min-height: 52px;
+  }
+
+  /* Убираем hover эффекты на мобильных */
+  .action-button:hover {
+    transform: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  }
+
+  .action-button:active {
+    transform: scale(0.97);
+  }
+}
+
+/* Маленькие мобильные устройства */
+@media (max-width: 480px) {
+  .controls-panel {
+    padding: 20px 16px;
   }
 
   .panel-title {
     font-size: 20px;
+    margin-bottom: 18px;
+  }
+
+  .title-icon {
+    font-size: 24px;
+  }
+
+  .control-group label {
+    font-size: 15px;
+  }
+
+  .control-group input[type="text"],
+  .control-group select {
+    padding: 12px 14px;
+    font-size: 15px;
   }
 
   .button-group-panel {
-    gap: 10px;
+    gap: 12px;
+    margin-top: 25px;
+  }
+
+  .action-button {
+    padding: 14px 20px;
+    font-size: 15px;
+    min-height: 48px;
+  }
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 360px) {
+  .controls-panel {
+    padding: 16px 12px;
+  }
+
+  .panel-title {
+    font-size: 18px;
+    gap: 8px;
+  }
+
+  .control-group input[type="text"],
+  .control-group select {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+
+  .action-button {
+    padding: 12px 16px;
+    font-size: 14px;
+    min-height: 44px;
   }
 }
