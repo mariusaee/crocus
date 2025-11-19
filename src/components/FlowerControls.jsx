@@ -9,23 +9,24 @@ const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce']
 
 function FlowerControls({ onAddFlower, existingFlowers }) {
   const [userName, setUserName] = useState('')
+  const [animationType, setAnimationType] = useState('random')
+  const [swayType, setSwayType] = useState('random')
   const navigate = useNavigate()
 
   const getRandomElement = (arr) => arr[Math.floor(Math.random() * arr.length)]
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const getSelectedAnimation = () => {
+    return animationType === 'random' ? getRandomElement(animations) : animationType
+  }
 
-    if (!userName.trim()) {
-      alert('Пожалуйста, введите имя!')
-      return
-    }
+  const getSelectedSwayType = () => {
+    return swayType === 'random' ? getRandomElement(swayTypes) : swayType
+  }
 
-    // Генерируем случайные координаты
+  const createFlowerComposition = (name) => {
     const viewportWidth = window.innerWidth
     const viewportHeight = window.innerHeight
 
-    // Случайная позиция в нижней части экрана (где трава)
     const x = 100 + Math.random() * (viewportWidth - 200)
     const y = viewportHeight * 0.5 + Math.random() * (viewportHeight * 0.4)
 
@@ -36,36 +37,116 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
       flower: getRandomElement(flowers),
       sign: getRandomElement(signs),
       layout: Math.random() > 0.5 ? 'left-layout' : 'right-layout',
-      animation: getRandomElement(animations),
-      sway: getRandomElement(swayTypes),
-      userName: userName.trim(),
+      animation: getSelectedAnimation(),
+      sway: getSelectedSwayType(),
+      userName: name,
       plantDate: new Date().toISOString()
     }
 
     onAddFlower(flowerData)
-    setUserName('')
+  }
 
-    // Переходим на главную страницу для просмотра
-    setTimeout(() => navigate('/'), 500)
+  const plantRandomFlower = () => {
+    if (!userName.trim()) {
+      alert('🌷 Сначала введите ваше имя!')
+      return
+    }
+
+    createFlowerComposition(userName.trim())
+  }
+
+  const plantRandomFlowers = () => {
+    if (!userName.trim()) {
+      alert('🌷 Сначала введите ваше имя!')
+      return
+    }
+
+    for (let i = 0; i < 5; i++) {
+      setTimeout(() => {
+        createFlowerComposition(userName.trim())
+      }, i * 200)
+    }
+  }
+
+  const removeLastFlower = () => {
+    if (existingFlowers.length === 0) {
+      alert('🌱 Сад пуст, нечего удалять!')
+      return
+    }
+
+    const lastFlower = existingFlowers[existingFlowers.length - 1]
+    alert(`🗑️ Чтобы удалить цветок "${lastFlower.userName}", перейдите в Волшебный Сад и кликните на него`)
   }
 
   return (
-    <div className="simple-add-container">
-      <form onSubmit={handleSubmit} className="simple-form">
-        <input
-          type="text"
-          value={userName}
-          onChange={(e) => setUserName(e.target.value)}
-          placeholder="Введите имя..."
-          maxLength={12}
-          autoFocus
-          className="simple-input"
-        />
+    <div className="flower-controls-container">
+      <div className="controls-panel">
+        <h1 className="panel-title">
+          <span className="title-icon">🌻</span>
+          Добавить Цветок
+        </h1>
 
-        <button type="submit" className="simple-button">
-          Добавить
-        </button>
-      </form>
+        <div className="control-group">
+          <label htmlFor="userName">👤 Ваше Имя:</label>
+          <input
+            type="text"
+            id="userName"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Введите имя..."
+            maxLength={12}
+            autoFocus
+          />
+        </div>
+
+        <div className="control-group">
+          <label htmlFor="animationType">🎭 Анимация посадки:</label>
+          <select
+            id="animationType"
+            value={animationType}
+            onChange={(e) => setAnimationType(e.target.value)}
+          >
+            <option value="random">🎲 Случайная</option>
+            <option value="spiral">🌀 Спираль</option>
+            <option value="bounce">⚡ Прыжок</option>
+            <option value="zoom">🔍 Зум</option>
+            <option value="flip">🔄 Переворот</option>
+            <option value="elastic">🎯 Эластичная</option>
+            <option value="wave">🌊 Волна</option>
+          </select>
+        </div>
+
+        <div className="control-group">
+          <label htmlFor="swayType">🍃 Покачивание:</label>
+          <select
+            id="swayType"
+            value={swayType}
+            onChange={(e) => setSwayType(e.target.value)}
+          >
+            <option value="random">🎲 Случайное</option>
+            <option value="gentle">🌸 Нежное</option>
+            <option value="wind">💨 Ветер</option>
+            <option value="dance">💃 Танец</option>
+            <option value="rotate">🔄 Вращение</option>
+            <option value="bounce">⬆️ Подпрыгивание</option>
+          </select>
+        </div>
+
+        <div className="button-group-panel">
+          <button className="action-button add-one-button" onClick={plantRandomFlower}>
+            🌺 Посадить 1 цветок
+          </button>
+          <button className="action-button random-button" onClick={plantRandomFlowers}>
+            🌸 Посадить 5 цветов
+          </button>
+          <button className="action-button remove-button" onClick={removeLastFlower}>
+            🗑️ Удалить последний
+          </button>
+          <button className="action-button view-list-btn" onClick={() => navigate('/')}>
+            🌼 Посмотреть сад
+          </button>
+        </div>
+      </div>
     </div>
   )
 }
