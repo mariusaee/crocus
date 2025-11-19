@@ -1,20 +1,22 @@
-import { initializeApp } from 'firebase/app'
-import { getDatabase } from 'firebase/database'
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-// TODO: Замените эти значения на ваши из Firebase Console
-// Инструкция ниже в файле FIREBASE_SETUP.md
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-}
+  apiKey: "AIzaSyCk80M4E6S0FIur4xtmjFrhFUESwwer_o0",
+  authDomain: "crocus-garden.firebaseapp.com",
+  databaseURL: "https://crocus-garden-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "crocus-garden",
+  storageBucket: "crocus-garden.firebasestorage.app",
+  messagingSenderId: "960222723188",
+  appId: "1:960222723188:web:13a958c7af21424256a521",
+  measurementId: "G-EJH93EZHLL"
+};
 
-// Инициализация Firebase
-const app = initializeApp(firebaseConfig)
-
-// Получение ссылки на базу данных
-export const database = getDatabase(app)
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
