@@ -53,7 +53,6 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
     }
 
     createFlowerComposition(userName.trim())
-    alert('🌸 Цветок добавлен! Посмотрите его в Волшебном Саду')
   }
 
   const plantRandomFlowers = () => {
@@ -67,8 +66,6 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
         createFlowerComposition(userName.trim())
       }, i * 200)
     }
-
-    alert('🌺 Добавляю 5 цветов! Посмотрите их в Волшебном Саду')
   }
 
   const removeLastFlower = () => {
