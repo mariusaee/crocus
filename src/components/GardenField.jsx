@@ -87,12 +87,12 @@ function GardenField({ flowers, onRemoveFlower }) {
             <div className="flower-wrapper">
               <img
                 className={`flower-image sway-${flower.sway}`}
-                src={`/${flower.flower}`}
+                src={`${import.meta.env.BASE_URL}${flower.flower}`}
                 alt="Цветок"
               />
             </div>
             <div className="sign">
-              <img className="sign-image" src={`/${flower.sign}`} alt="Табличка" />
+              <img className="sign-image" src={`${import.meta.env.BASE_URL}${flower.sign}`} alt="Табличка" />
               <div className="sign-text">{flower.userName}</div>
             </div>
           </div>
