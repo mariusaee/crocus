@@ -43,8 +43,8 @@ function App() {
 
     // Пытаемся найти позицию с минимальным расстоянием от других цветов
     while (attempt < maxAttempts && !positionFound) {
-      xPercent = 8 + Math.random() * 84  // 8%-92% по ширине
-      yPercent = 55 + Math.random() * 25  // 55%-80% по высоте
+      xPercent = 8 + Math.random() * 84  // 8%-92% по ширине (весь экран)
+      yPercent = 35 + Math.random() * 50  // 35%-85% по высоте (используем всё доступное пространство)
 
       // Проверяем расстояние до всех существующих цветов
       positionFound = true
