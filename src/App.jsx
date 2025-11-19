@@ -32,9 +32,20 @@ function App() {
   }, [])
 
   const addFlower = (flowerData) => {
+    // Генерируем координаты в процентах (0-100)
+    // GardenField сам конвертирует их в пиксели на основе своих размеров
+    const xPercent = 5 + Math.random() * 90  // 5%-95% по ширине
+    const yPercent = 50 + Math.random() * 45  // 50%-95% по высоте
+
+    const flowerWithPosition = {
+      ...flowerData,
+      xPercent,
+      yPercent
+    }
+
     // Сохраняем в Firebase
     const flowerRef = ref(database, `flowers/${flowerData.id}`)
-    set(flowerRef, flowerData)
+    set(flowerRef, flowerWithPosition)
   }
 
   const removeFlower = (id) => {

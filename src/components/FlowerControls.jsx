@@ -24,18 +24,10 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
   }
 
   const createFlowerComposition = (name) => {
-    // Используем фиксированные большие размеры для генерации координат,
-    // чтобы цветы равномерно распределялись по полю независимо от устройства
-    const gardenWidth = 2400  // Фиксированная ширина поля сада
-    const gardenHeight = 1400  // Фиксированная высота поля сада
-
-    const x = 100 + Math.random() * (gardenWidth - 200)
-    const y = gardenHeight * 0.5 + Math.random() * (gardenHeight * 0.4)
-
+    // Создаем только данные о цветке, без координат
+    // Координаты будут добавлены в GardenField на основе его размеров
     const flowerData = {
       id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
-      x: x,
-      y: y,
       flower: getRandomElement(flowers),
       sign: getRandomElement(signs),
       layout: Math.random() > 0.5 ? 'left-layout' : 'right-layout',

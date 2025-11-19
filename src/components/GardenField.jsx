@@ -4,6 +4,25 @@ import './GardenField.css'
 function GardenField({ flowers, onRemoveFlower }) {
   const gardenRef = useRef(null)
 
+  // Конвертируем процентные координаты в пиксельные
+  const getPixelPosition = (flower) => {
+    if (!gardenRef.current) return { x: 0, y: 0 }
+
+    const gardenWidth = gardenRef.current.clientWidth
+    const gardenHeight = gardenRef.current.clientHeight
+
+    // Если есть старые координаты в пикселях (для обратной совместимости)
+    if (flower.x !== undefined && flower.y !== undefined) {
+      return { x: flower.x, y: flower.y }
+    }
+
+    // Конвертируем проценты в пиксели
+    const x = (flower.xPercent / 100) * gardenWidth
+    const y = (flower.yPercent / 100) * gardenHeight
+
+    return { x, y }
+  }
+
 
   const handleFlowerClick = (flower) => {
     if (confirm(`Удалить цветок "${flower.userName}"?`)) {
@@ -64,15 +83,17 @@ function GardenField({ flowers, onRemoveFlower }) {
       <div className="cloud cloud2"></div>
 
       {/* Цветы */}
-      {flowers.map((flower) => (
-        <div
-          key={flower.id}
-          className={`planted-item animation-${flower.animation}`}
-          style={{ left: flower.x + 'px', top: flower.y + 'px' }}
-          onClick={() => handleFlowerClick(flower)}
-          onMouseEnter={(e) => handleFlowerHover(e, flower)}
-          onMouseLeave={handleFlowerLeave}
-        >
+      {flowers.map((flower) => {
+        const { x, y } = getPixelPosition(flower)
+        return (
+          <div
+            key={flower.id}
+            className={`planted-item animation-${flower.animation}`}
+            style={{ left: x + 'px', top: y + 'px' }}
+            onClick={() => handleFlowerClick(flower)}
+            onMouseEnter={(e) => handleFlowerHover(e, flower)}
+            onMouseLeave={handleFlowerLeave}
+          >
           <div className={`flower-sign-container ${flower.layout}`}>
             <div className="flower-wrapper">
               <img
@@ -87,7 +108,8 @@ function GardenField({ flowers, onRemoveFlower }) {
             </div>
           </div>
         </div>
-      ))}
+        )
+      })}
 
 
       {/* Тултип */}
