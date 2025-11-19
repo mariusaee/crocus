@@ -12,11 +12,9 @@
 
 @keyframes gardenFadeIn {
   from {
-    opacity: 0;
     filter: blur(20px);
   }
   to {
-    opacity: 1;
     filter: blur(0);
   }
 }
@@ -35,72 +33,9 @@
   pointer-events: none;
 }
 
-/* Облака */
+/* Облака убраны */
 .cloud {
-  position: absolute;
-  background: white;
-  border-radius: 100px;
-  opacity: 0.7;
-  animation: cloudFloat 30s linear infinite;
-  pointer-events: none;
-}
-
-.cloud::before,
-.cloud::after {
-  content: '';
-  position: absolute;
-  background: white;
-  border-radius: 100px;
-}
-
-.cloud1 {
-  width: 100px;
-  height: 40px;
-  top: 20%;
-  left: -100px;
-}
-
-.cloud1::before {
-  width: 50px;
-  height: 50px;
-  top: -25px;
-  left: 10px;
-}
-
-.cloud1::after {
-  width: 60px;
-  height: 40px;
-  top: -15px;
-  right: 10px;
-}
-
-.cloud2 {
-  width: 80px;
-  height: 35px;
-  top: 10%;
-  left: -80px;
-  animation-delay: 15s;
-  animation-duration: 35s;
-}
-
-.cloud2::before {
-  width: 40px;
-  height: 40px;
-  top: -20px;
-  left: 15px;
-}
-
-.cloud2::after {
-  width: 50px;
-  height: 35px;
-  top: -10px;
-  right: 15px;
-}
-
-@keyframes cloudFloat {
-  to {
-    transform: translateX(calc(100vw + 200px));
-  }
+  display: none;
 }
 
 /* Посаженные цветы */
@@ -124,11 +59,9 @@
 @keyframes plantSpiral {
   from {
     transform: scale(0) rotate(720deg);
-    opacity: 0;
   }
   to {
     transform: scale(1) rotate(0deg);
-    opacity: 1;
   }
 }
 
@@ -139,11 +72,9 @@
 @keyframes plantBounce {
   0% {
     transform: scale(0) translateY(-300px);
-    opacity: 0;
   }
   60% {
     transform: scale(1.2) translateY(0);
-    opacity: 1;
   }
   80% {
     transform: scale(0.9) translateY(0);
@@ -160,12 +91,10 @@
 @keyframes plantZoom {
   from {
     transform: scale(5);
-    opacity: 0;
     filter: blur(20px);
   }
   to {
     transform: scale(1);
-    opacity: 1;
     filter: blur(0);
   }
 }
@@ -177,14 +106,12 @@
 @keyframes plantFlip {
   from {
     transform: rotateY(360deg) scale(0);
-    opacity: 0;
   }
   50% {
     transform: rotateY(180deg) scale(1.2);
   }
   to {
     transform: rotateY(0) scale(1);
-    opacity: 1;
   }
 }
 
@@ -195,7 +122,6 @@
 @keyframes plantElastic {
   0% {
     transform: scale(0);
-    opacity: 0;
   }
   30% {
     transform: scale(1.3) scaleY(0.7);
@@ -208,7 +134,6 @@
   }
   100% {
     transform: scale(1);
-    opacity: 1;
   }
 }
 
@@ -219,15 +144,12 @@
 @keyframes plantWave {
   0% {
     transform: scale(0) translateX(-100px) rotate(-180deg);
-    opacity: 0;
   }
   50% {
     transform: scale(1.1) translateX(50px) rotate(90deg);
-    opacity: 0.7;
   }
   100% {
     transform: scale(1) translateX(0) rotate(0);
-    opacity: 1;
   }
 }
 
@@ -366,11 +288,9 @@
 @keyframes signAppear {
   from {
     transform: scale(0) rotateY(180deg);
-    opacity: 0;
   }
   to {
     transform: scale(1) rotateY(0deg);
-    opacity: 1;
   }
 }
 

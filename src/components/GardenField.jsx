@@ -1,19 +1,9 @@
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import './GardenField.css'
 
 function GardenField({ flowers, onRemoveFlower }) {
   const gardenRef = useRef(null)
 
-  useEffect(() => {
-    // Убираем инструкции после первой посадки
-    if (flowers.length > 0) {
-      const instructions = document.querySelector('.instructions')
-      if (instructions) {
-        instructions.style.animation = 'fadeOut 0.5s forwards'
-        setTimeout(() => instructions && instructions.remove(), 500)
-      }
-    }
-  }, [flowers.length])
 
   const handleFlowerClick = (flower) => {
     if (confirm(`Удалить цветок "${flower.userName}"?`)) {
@@ -99,13 +89,6 @@ function GardenField({ flowers, onRemoveFlower }) {
         </div>
       ))}
 
-      {/* Инструкции */}
-      {flowers.length === 0 && (
-        <div className="instructions">
-          ✨ Перейдите на страницу "Добавить Цветок", чтобы посадить свой первый цветок! ✨<br />
-          <small>Цветы будут отображаться здесь на волшебной поляне</small>
-        </div>
-      )}
 
       {/* Тултип */}
       <div className="info-tooltip" id="tooltip"></div>
