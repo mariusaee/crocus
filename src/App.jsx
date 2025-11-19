@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { ref, onValue, set, remove } from 'firebase/database'
+import { database } from './firebase'
 import GardenField from './components/GardenField'
 import FlowerControls from './components/FlowerControls'
 import './App.css'
@@ -7,50 +9,44 @@ import './App.css'
 function App() {
   const [flowers, setFlowers] = useState([])
 
-  // Функция для загрузки цветов из localStorage
-  const loadFlowers = () => {
-    const savedFlowers = localStorage.getItem('magicGardenData')
-    if (savedFlowers) {
-      const parsedFlowers = JSON.parse(savedFlowers)
-      setFlowers(parsedFlowers)
-    }
-  }
-
-  // Загрузка цветов из localStorage при загрузке
+  // Подписка на изменения в Firebase в реальном времени
   useEffect(() => {
-    loadFlowers()
-  }, [])
+    const flowersRef = ref(database, 'flowers')
 
-  // Сохранение цветов в localStorage при изменении
-  useEffect(() => {
-    if (flowers.length > 0) {
-      localStorage.setItem('magicGardenData', JSON.stringify(flowers))
-    }
-  }, [flowers])
-
-  // Реактивное обновление при изменении localStorage в других вкладках
-  useEffect(() => {
-    const handleStorageChange = (e) => {
-      if (e.key === 'magicGardenData') {
-        loadFlowers()
+    const unsubscribe = onValue(flowersRef, (snapshot) => {
+      const data = snapshot.val()
+      if (data) {
+        // Конвертируем объект в массив
+        const flowersArray = Object.keys(data).map(key => ({
+          ...data[key],
+          id: key
+        }))
+        setFlowers(flowersArray)
+      } else {
+        setFlowers([])
       }
-    }
+    })
 
-    window.addEventListener('storage', handleStorageChange)
-    return () => window.removeEventListener('storage', handleStorageChange)
+    // Отписываемся при размонтировании
+    return () => unsubscribe()
   }, [])
 
   const addFlower = (flowerData) => {
-    setFlowers([...flowers, flowerData])
+    // Сохраняем в Firebase
+    const flowerRef = ref(database, `flowers/${flowerData.id}`)
+    set(flowerRef, flowerData)
   }
 
   const removeFlower = (id) => {
-    setFlowers(flowers.filter(flower => flower.id !== id))
+    // Удаляем из Firebase
+    const flowerRef = ref(database, `flowers/${id}`)
+    remove(flowerRef)
   }
 
   const removeAllFlowers = () => {
-    setFlowers([])
-    localStorage.removeItem('magicGardenData')
+    // Удаляем все цветы из Firebase
+    const flowersRef = ref(database, 'flowers')
+    remove(flowersRef)
   }
 
   return (
