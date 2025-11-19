@@ -385,19 +385,22 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 11px;
-  font-weight: bold;
-  color: #3E2723;
+  font-size: 13px;
+  font-weight: 900;
+  color: #1a0f00;
   text-align: center;
   white-space: nowrap;
   text-shadow:
-    0 1px 0 rgba(255,255,255,1),
-    0 2px 3px rgba(0,0,0,0.3);
-  font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+    1px 1px 0 rgba(255,255,255,1),
+    -1px -1px 0 rgba(255,255,255,1),
+    1px -1px 0 rgba(255,255,255,1),
+    -1px 1px 0 rgba(255,255,255,1),
+    0 0 4px rgba(255,255,255,0.9);
+  font-family: 'Arial Black', 'Arial', sans-serif;
   max-width: 65px;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.5px;
 }
 
 .instructions {
