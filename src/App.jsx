@@ -33,9 +33,40 @@ function App() {
 
   const addFlower = (flowerData) => {
     // Генерируем координаты в процентах с безопасными отступами от краев
-    // GardenField сам конвертирует их в пиксели на основе своих размеров
-    const xPercent = 8 + Math.random() * 84  // 8%-92% по ширине (отступы от краев)
-    const yPercent = 55 + Math.random() * 25  // 55%-80% по высоте (нижняя половина экрана)
+    // и проверкой минимального расстояния до других цветов
+    const minDistance = 12 // Минимальное расстояние в процентах между цветами
+    const maxAttempts = 50 // Максимальное количество попыток найти свободное место
+
+    let xPercent, yPercent
+    let attempt = 0
+    let positionFound = false
+
+    // Пытаемся найти позицию с минимальным расстоянием от других цветов
+    while (attempt < maxAttempts && !positionFound) {
+      xPercent = 8 + Math.random() * 84  // 8%-92% по ширине
+      yPercent = 55 + Math.random() * 25  // 55%-80% по высоте
+
+      // Проверяем расстояние до всех существующих цветов
+      positionFound = true
+      for (const flower of flowers) {
+        // Используем процентные координаты или конвертируем старые пиксельные
+        const flowerX = flower.xPercent !== undefined ? flower.xPercent : 50
+        const flowerY = flower.yPercent !== undefined ? flower.yPercent : 70
+
+        // Вычисляем расстояние между точками
+        const distance = Math.sqrt(
+          Math.pow(xPercent - flowerX, 2) +
+          Math.pow(yPercent - flowerY, 2)
+        )
+
+        if (distance < minDistance) {
+          positionFound = false
+          break
+        }
+      }
+
+      attempt++
+    }
 
     const flowerWithPosition = {
       ...flowerData,
