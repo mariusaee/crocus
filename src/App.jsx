@@ -58,7 +58,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} />} />
-          <Route path="/add" element={<FlowerControls onAddFlower={addFlower} existingFlowers={flowers} />} />
+          <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} existingFlowers={flowers} />} />
         </Routes>
       </div>
     </Router>

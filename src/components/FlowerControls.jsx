@@ -8,7 +8,7 @@ const animations = ['spiral', 'bounce', 'zoom', 'flip', 'elastic', 'wave']
 const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce']
 const particleTypes = ['star', 'petal', 'sparkle', 'heart', 'butterfly']
 
-function FlowerControls({ onAddFlower, existingFlowers }) {
+function FlowerControls({ onAddFlower, onRemoveFlower, existingFlowers }) {
   const [userName, setUserName] = useState('')
   const [animationType, setAnimationType] = useState('random')
   const [swayType, setSwayType] = useState('random')
@@ -60,9 +60,9 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
     const x = event.clientX - rect.left
     const y = event.clientY - rect.top
 
-    // Проверка границ
-    if (x < 60 || x > rect.width - 60 || y < 40 || y > rect.height - 80) {
-      showNotification('🌻 Посадите цветок подальше от края!')
+    // Проверка границ (только нижние 60% экрана - где трава)
+    if (x < 60 || x > rect.width - 60 || y < rect.height * 0.4 || y > rect.height - 80) {
+      showNotification('🌻 Сажайте цветы только на траве (в нижней части)!')
       return
     }
 
@@ -122,10 +122,10 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
     let attempts = 0
     const maxAttempts = 50
 
-    // Пытаемся найти случайное свободное место
+    // Пытаемся найти случайное свободное место (только нижние 60% - где трава)
     while (attempts < maxAttempts) {
       const x = 60 + Math.random() * (rect.width - 120)
-      const y = 40 + Math.random() * (rect.height - 120)
+      const y = rect.height * 0.4 + Math.random() * (rect.height * 0.6 - 120)
 
       const minDistance = 100
       const tooClose = existingFlowers.some(item => {
@@ -171,7 +171,7 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
       attempts++
 
       const x = 60 + Math.random() * (rect.width - 120)
-      const y = 40 + Math.random() * (rect.height - 120)
+      const y = rect.height * 0.4 + Math.random() * (rect.height * 0.6 - 120)
 
       const minDistance = 100
       const tooClose = existingFlowers.some(item => {
@@ -185,6 +185,17 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
         planted++
       }
     }, 200)
+  }
+
+  const removeLastFlower = () => {
+    if (existingFlowers.length === 0) {
+      showNotification('🌱 Сад пуст, нечего удалять!')
+      return
+    }
+
+    const lastFlower = existingFlowers[existingFlowers.length - 1]
+    onRemoveFlower(lastFlower.id)
+    showNotification(`🗑️ Удален цветок "${lastFlower.userName}"`)
   }
 
   const createParticles = (x, y) => {
@@ -311,6 +322,9 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
           </button>
           <button className="action-button random-button" onClick={plantRandomFlowers}>
             🌸 Посадить 5 цветов
+          </button>
+          <button className="action-button remove-button" onClick={removeLastFlower}>
+            🗑️ Удалить последний
           </button>
           <button className="action-button view-list-btn" onClick={() => navigate('/')}>
             🌼 Посмотреть сад
