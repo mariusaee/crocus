@@ -7,7 +7,7 @@ const signs = ['sign1.png', 'sign2.png', 'sign3.png']
 const animations = ['spiral', 'bounce', 'zoom', 'flip', 'elastic', 'wave']
 const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce']
 
-function FlowerControls({ onAddFlower, existingFlowers }) {
+function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
   const [userName, setUserName] = useState('')
   const [animationType, setAnimationType] = useState('random')
   const [swayType, setSwayType] = useState('random')
@@ -78,6 +78,19 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
     alert(`🗑️ Чтобы удалить цветок "${lastFlower.userName}", перейдите в Волшебный Сад и кликните на него`)
   }
 
+  const removeAllFlowers = () => {
+    if (existingFlowers.length === 0) {
+      alert('🌱 Сад уже пуст!')
+      return
+    }
+
+    const confirmed = confirm(`Вы уверены, что хотите удалить все ${existingFlowers.length} цветов? Это действие нельзя отменить!`)
+    if (confirmed) {
+      onRemoveAllFlowers()
+      alert('🗑️ Все цветы удалены!')
+    }
+  }
+
   return (
     <div className="flower-controls-container">
       <div className="controls-panel">
@@ -141,6 +154,9 @@ function FlowerControls({ onAddFlower, existingFlowers }) {
           </button>
           <button className="action-button remove-button" onClick={removeLastFlower}>
             🗑️ Удалить последний
+          </button>
+          <button className="action-button remove-all-button" onClick={removeAllFlowers}>
+            ❌ Удалить все
           </button>
           <button className="action-button view-list-btn" onClick={() => navigate('/')}>
             🌼 Посмотреть сад

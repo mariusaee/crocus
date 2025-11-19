@@ -48,6 +48,11 @@ function App() {
     setFlowers(flowers.filter(flower => flower.id !== id))
   }
 
+  const removeAllFlowers = () => {
+    setFlowers([])
+    localStorage.removeItem('magicGardenData')
+  }
+
   return (
     <Router basename="/crocus">
       <div className="app">
@@ -58,7 +63,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} />} />
-          <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} existingFlowers={flowers} />} />
+          <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} onRemoveAllFlowers={removeAllFlowers} existingFlowers={flowers} />} />
         </Routes>
       </div>
     </Router>
