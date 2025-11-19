@@ -32,10 +32,10 @@ function App() {
   }, [])
 
   const addFlower = (flowerData) => {
-    // Генерируем координаты в процентах (0-100)
+    // Генерируем координаты в процентах с безопасными отступами от краев
     // GardenField сам конвертирует их в пиксели на основе своих размеров
-    const xPercent = 5 + Math.random() * 90  // 5%-95% по ширине
-    const yPercent = 50 + Math.random() * 45  // 50%-95% по высоте
+    const xPercent = 8 + Math.random() * 84  // 8%-92% по ширине (отступы от краев)
+    const yPercent = 55 + Math.random() * 25  // 55%-80% по высоте (нижняя половина экрана)
 
     const flowerWithPosition = {
       ...flowerData,
