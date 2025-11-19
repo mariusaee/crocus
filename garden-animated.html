@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Виртуальный Цветочный Сад - Анимированная Поляна</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: #87CEEB;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .controls {
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.98) 0%, rgba(138, 43, 226, 0.98) 100%);
+            padding: 12px 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            z-index: 100;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid rgba(255,255,255,0.2);
+            animation: controlsSlideDown 0.8s ease-out;
+        }
+
+        @keyframes controlsSlideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .controls-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .title {
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            }
+            50% {
+                text-shadow: 2px 2px 20px rgba(255,215,0,0.6);
+            }
+        }
+
+        .title-icon {
+            font-size: 30px;
+            animation: sunRotate 10s linear infinite;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+        }
+
+        @keyframes sunRotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 25px;
+            backdrop-filter: blur(5px);
+            animation: inputAppear 1s ease-out backwards;
+        }
+
+        .input-group:nth-child(2) { animation-delay: 0.2s; }
+        .input-group:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes inputAppear {
+            from {
+                transform: scale(0) rotate(180deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+            }
+        }
+
+        label {
+            color: white;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
+            font-size: 15px;
+            white-space: nowrap;
+        }
+
+        input[type="text"] {
+            padding: 8px 12px;
+            border: 2px solid transparent;
+            border-radius: 18px;
+            font-size: 15px;
+            width: 150px;
+            background: rgba(255,255,255,0.95);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 15px rgba(255,215,0,0.4), inset 0 1px 3px rgba(0,0,0,0.1);
+            transform: scale(1.05);
+            background: white;
+            animation: inputPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes inputPulse {
+            0%, 100% {
+                box-shadow: 0 0 15px rgba(255,215,0,0.4);
+            }
+            50% {
+                box-shadow: 0 0 25px rgba(255,215,0,0.7);
+            }
+        }
+
+        .animation-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.15);
+            padding: 6px 12px;
+            border-radius: 25px;
+        }
+
+        .animation-selector label {
+            font-size: 14px;
+        }
+
+        select {
+            padding: 5px 10px;
+            border-radius: 15px;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        select:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .stats {
+            color: white;
+            font-size: 17px;
+            background: rgba(0,0,0,0.25);
+            padding: 8px 18px;
+            border-radius: 22px;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+            animation: statsFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes statsFloat {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        .stats-number {
+            font-weight: bold;
+            font-size: 20px;
+            color: #FFD700;
+            text-shadow: 0 0 10px rgba(255,215,0,0.5);
+            animation: numberGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes numberGlow {
+            0%, 100% {
+                transform: scale(1);
+                text-shadow: 0 0 10px rgba(255,215,0,0.5);
+            }
+            50% {
+                transform: scale(1.1);
+                text-shadow: 0 0 20px rgba(255,215,0,0.8);
+            }
+        }
+
+        .garden-area {
+            flex: 1;
+            position: relative;
+            background-image: url('backbround.png');
+            background-size: cover;
+            background-position: center bottom;
+            background-repeat: no-repeat;
+            cursor: crosshair;
+            overflow: hidden;
+            min-height: 0;
+            animation: gardenFadeIn 1.5s ease-out;
+        }
+
+        @keyframes gardenFadeIn {
+            from {
+                opacity: 0;
+                filter: blur(20px);
+            }
+            to {
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        .garden-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, 
+                rgba(135, 206, 235, 0) 0%, 
+                rgba(135, 206, 235, 0) 70%, 
+                rgba(46, 125, 50, 0.03) 100%);
+            pointer-events: none;
+        }
+
+        /* Облака */
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+            opacity: 0.7;
+            animation: cloudFloat 30s linear infinite;
+            pointer-events: none;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: '';
+            position: absolute;
+            background: white;
+            border-radius: 100px;
+        }
+
+        .cloud1 {
+            width: 100px;
+            height: 40px;
+            top: 20%;
+            left: -100px;
+        }
+
+        .cloud1::before {
+            width: 50px;
+            height: 50px;
+            top: -25px;
+            left: 10px;
+        }
+
+        .cloud1::after {
+            width: 60px;
+            height: 40px;
+            top: -15px;
+            right: 10px;
+        }
+
+        .cloud2 {
+            width: 80px;
+            height: 35px;
+            top: 10%;
+            left: -80px;
+            animation-delay: 15s;
+            animation-duration: 35s;
+        }
+
+        .cloud2::before {
+            width: 40px;
+            height: 40px;
+            top: -20px;
+            left: 15px;
+        }
+
+        .cloud2::after {
+            width: 50px;
+            height: 35px;
+            top: -10px;
+            right: 15px;
+        }
+
+        @keyframes cloudFloat {
+            to {
+                transform: translateX(calc(100vw + 200px));
+            }
+        }
+
+        /* Различные анимации посадки */
+        .planted-item {
+            position: absolute;
+            pointer-events: auto;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .planted-item.animation-spiral {
+            animation: plantSpiral 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes plantSpiral {
+            from {
+                transform: scale(0) rotate(720deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .planted-item.animation-bounce {
+            animation: plantBounce 1s ease-out;
+        }
+
+        @keyframes plantBounce {
+            0% {
+                transform: scale(0) translateY(-300px);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2) translateY(0);
+                opacity: 1;
+            }
+            80% {
+                transform: scale(0.9) translateY(0);
+            }
+            100% {
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .planted-item.animation-zoom {
+            animation: plantZoom 0.8s ease-out;
+        }
+
+        @keyframes plantZoom {
+            from {
+                transform: scale(5);
+                opacity: 0;
+                filter: blur(20px);
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+                filter: blur(0);
+            }
+        }
+
+        .planted-item.animation-flip {
+            animation: plantFlip 1s ease-out;
+        }
+
+        @keyframes plantFlip {
+            from {
+                transform: rotateY(360deg) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: rotateY(180deg) scale(1.2);
+            }
+            to {
+                transform: rotateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .planted-item.animation-elastic {
+            animation: plantElastic 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes plantElastic {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            30% {
+                transform: scale(1.3) scaleY(0.7);
+            }
+            40% {
+                transform: scale(0.8) scaleY(1.2);
+            }
+            60% {
+                transform: scale(1.15) scaleY(0.85);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .planted-item.animation-wave {
+            animation: plantWave 1s ease-out;
+        }
+
+        @keyframes plantWave {
+            0% {
+                transform: scale(0) translateX(-100px) rotate(-180deg);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1) translateX(50px) rotate(90deg);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1) translateX(0) rotate(0);
+                opacity: 1;
+            }
+        }
+
+        .planted-item:hover {
+            transform: scale(1.05);
+            z-index: 20;
+            filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
+        }
+
+        .flower-sign-container {
+            position: relative;
+            transform: translate(-50%, -100%);
+            display: flex;
+            align-items: flex-end;
+            gap: -10px;
+        }
+
+        .flower-sign-container.left-layout {
+            flex-direction: row;
+        }
+
+        .flower-sign-container.right-layout {
+            flex-direction: row-reverse;
+        }
+
+        .flower-wrapper {
+            position: relative;
+            z-index: 2;
+            margin-bottom: -5px;
+        }
+
+        /* Различные анимации покачивания */
+        .flower-image {
+            width: 65px;
+            height: 65px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+            display: block;
+        }
+
+        .flower-image.sway-gentle {
+            animation: flowerSwayGentle 4s ease-in-out infinite;
+        }
+
+        @keyframes flowerSwayGentle {
+            0%, 100% {
+                transform: rotate(-2deg) translateY(0);
+            }
+            50% {
+                transform: rotate(2deg) translateY(-2px);
+            }
+        }
+
+        .flower-image.sway-wind {
+            animation: flowerSwayWind 2.5s ease-in-out infinite;
+        }
+
+        @keyframes flowerSwayWind {
+            0%, 100% {
+                transform: rotate(-5deg) translateX(0);
+            }
+            25% {
+                transform: rotate(3deg) translateX(2px);
+            }
+            50% {
+                transform: rotate(5deg) translateX(-2px);
+            }
+            75% {
+                transform: rotate(-3deg) translateX(1px);
+            }
+        }
+
+        .flower-image.sway-dance {
+            animation: flowerDance 3s ease-in-out infinite;
+        }
+
+        @keyframes flowerDance {
+            0%, 100% {
+                transform: rotate(-3deg) scale(1);
+            }
+            25% {
+                transform: rotate(2deg) scale(1.05);
+            }
+            50% {
+                transform: rotate(3deg) scale(1);
+            }
+            75% {
+                transform: rotate(-2deg) scale(1.02);
+            }
+        }
+
+        .flower-image.sway-rotate {
+            animation: flowerRotate 6s linear infinite;
+        }
+
+        @keyframes flowerRotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(5deg);
+            }
+            50% {
+                transform: rotate(0deg);
+            }
+            75% {
+                transform: rotate(-5deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .flower-image.sway-bounce {
+            animation: flowerBounce 2s ease-in-out infinite;
+        }
+
+        @keyframes flowerBounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-5px) scale(1.05);
+            }
+        }
+
+        .sign {
+            position: relative;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
+            animation: signAppear 0.3s ease-out 0.3s both;
+            z-index: 1;
+            margin-bottom: 0;
+        }
+
+        .left-layout .sign {
+            margin-left: -15px;
+        }
+
+        .right-layout .sign {
+            margin-right: -15px;
+        }
+
+        @keyframes signAppear {
+            from {
+                transform: scale(0) rotateY(180deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        .sign-image {
+            width: 85px;
+            height: auto;
+            display: block;
+        }
+
+        .sign-text {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 11px;
+            font-weight: bold;
+            color: #3E2723;
+            text-align: center;
+            white-space: nowrap;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+            font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+            max-width: 65px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: 0.3px;
+        }
+
+        /* Различные частицы */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .particle-star {
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #FFD700, transparent);
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            animation: particleFloat 1.5s ease-out forwards;
+        }
+
+        .particle-petal {
+            width: 15px;
+            height: 15px;
+            background: radial-gradient(ellipse, #ff69b4, transparent);
+            border-radius: 0 100% 0 100%;
+            animation: petalFloat 2s ease-out forwards;
+        }
+
+        .particle-sparkle {
+            width: 10px;
+            height: 10px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px white;
+            animation: sparkleFloat 1s ease-out forwards;
+        }
+
+        .particle-heart {
+            width: 12px;
+            height: 12px;
+            background: #ff1744;
+            position: relative;
+            transform: rotate(-45deg);
+            animation: heartFloat 2s ease-out forwards;
+        }
+
+        .particle-heart::before,
+        .particle-heart::after {
+            content: '';
+            width: 12px;
+            height: 12px;
+            position: absolute;
+            left: 6px;
+            top: 0;
+            background: #ff1744;
+            border-radius: 50%;
+        }
+
+        .particle-heart::after {
+            left: 0;
+            top: -6px;
+        }
+
+        .particle-butterfly {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #9370DB, #FF69B4);
+            clip-path: polygon(50% 0%, 0% 50%, 50% 100%, 100% 50%);
+            animation: butterflyFloat 3s ease-out forwards;
+        }
+
+        @keyframes particleFloat {
+            to {
+                transform: translateY(-100px) translateX(50px) rotate(720deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes petalFloat {
+            to {
+                transform: translateY(-80px) translateX(-30px) rotate(-360deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sparkleFloat {
+            to {
+                transform: translateY(-60px) translateX(20px) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes heartFloat {
+            to {
+                transform: translateY(-100px) translateX(40px) rotate(-45deg) scale(0);
+                opacity: 0;
+            }
+        }
+
+        @keyframes butterflyFloat {
+            0% {
+                transform: translateY(0) translateX(0) scale(1);
+            }
+            25% {
+                transform: translateY(-30px) translateX(20px) scale(1.1);
+            }
+            50% {
+                transform: translateY(-20px) translateX(-15px) scale(1);
+            }
+            75% {
+                transform: translateY(-50px) translateX(25px) scale(0.8);
+            }
+            100% {
+                transform: translateY(-100px) translateX(0) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .instructions {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(0,0,0,0.7));
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 15px;
+            z-index: 50;
+            animation: instructionsPulse 2s infinite, slideUp 0.5s ease-out;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateX(-50%) translateY(50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes instructionsPulse {
+            0%, 100% {
+                box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+                transform: translateX(-50%) scale(1);
+            }
+            50% {
+                box-shadow: 0 5px 35px rgba(147,112,219,0.6);
+                transform: translateX(-50%) scale(1.02);
+            }
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .action-button:hover::before {
+            left: 100%;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .action-button:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .clear-button {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+        }
+
+        .save-button {
+            background: linear-gradient(135deg, #48c774, #3abb67);
+        }
+
+        .random-button {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .magic-button {
+            background: linear-gradient(135deg, #e91e63, #9c27b0);
+            animation: magicGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes magicGlow {
+            0%, 100% {
+                box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            }
+            50% {
+                box-shadow: 0 3px 20px rgba(233,30,99,0.5);
+            }
+        }
+
+        .info-tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            pointer-events: none;
+            z-index: 200;
+            transform: translate(-50%, -100%);
+            margin-top: -10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .info-tooltip.show {
+            opacity: 1;
+            animation: tooltipBounce 0.5s ease-out;
+        }
+
+        @keyframes tooltipBounce {
+            0% {
+                transform: translate(-50%, -80%);
+            }
+            50% {
+                transform: translate(-50%, -110%);
+            }
+            100% {
+                transform: translate(-50%, -100%);
+            }
+        }
+
+        .info-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(0,0,0,0.9);
+        }
+
+        /* Анимация загрузки */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: loadingFadeOut 1s ease-out 1s forwards;
+        }
+
+        @keyframes loadingFadeOut {
+            to {
+                opacity: 0;
+                pointer-events: none;
+            }
+        }
+
+        .loading-flower {
+            width: 100px;
+            height: 100px;
+            animation: loadingRotate 1s linear infinite;
+        }
+
+        @keyframes loadingRotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Медиа запросы */
+        @media (max-width: 1200px) {
+            .controls-content {
+                justify-content: center;
+            }
+            
+            .stats {
+                margin-left: 0;
+                margin-top: 5px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                padding: 10px;
+            }
+            
+            .controls-content {
+                gap: 10px;
+            }
+            
+            .title {
+                font-size: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .input-group, .animation-selector {
+                flex: 1 1 auto;
+                min-width: 200px;
+                justify-content: center;
+            }
+            
+            input[type="text"] {
+                width: 120px;
+            }
+            
+            .button-group {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            .stats {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .flower-image {
+                width: 55px;
+                height: 55px;
+            }
+            
+            .sign-image {
+                width: 75px;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+        }
+        
+        .notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, rgba(147, 112, 219, 0.98), rgba(138, 43, 226, 0.98));
+            color: white;
+            padding: 18px 35px;
+            border-radius: 25px;
+            font-size: 17px;
+            font-weight: bold;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            z-index: 1000;
+            animation: notificationPop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-align: center;
+            max-width: 80%;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        @keyframes notificationPop {
+            from {
+                transform: translate(-50%, -50%) scale(0) rotate(180deg);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1) rotate(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes notificationFade {
+            to {
+                transform: translate(-50%, -50%) scale(0.8) rotate(-90deg);
+                opacity: 0;
+            }
+        }
+
+        .random-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #4CAF50;
+            border-radius: 50%;
+            margin-left: 5px;
+            animation: indicatorPulse 1s infinite;
+        }
+
+        @keyframes indicatorPulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.3);
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Экран загрузки -->
+    <div class="loading-overlay">
+        <div class="loading-flower">🌻</div>
+    </div>
+
+    <div class="container">
+        <div class="controls">
+            <div class="controls-content">
+                <h1 class="title">
+                    <span class="title-icon">🌻</span>
+                    <span>Волшебный Цветочный Сад</span>
+                </h1>
+                
+                <div class="input-group">
+                    <label for="userName">👤 Имя:</label>
+                    <input type="text" id="userName" placeholder="Ваше имя" maxlength="12">
+                </div>
+                
+                <div class="animation-selector">
+                    <label for="animationType">🎭 Анимация:</label>
+                    <select id="animationType">
+                        <option value="random">🎲 Случайная</option>
+                        <option value="spiral">🌀 Спираль</option>
+                        <option value="bounce">⚡ Прыжок</option>
+                        <option value="zoom">🔍 Зум</option>
+                        <option value="flip">🔄 Переворот</option>
+                        <option value="elastic">🎯 Эластичная</option>
+                        <option value="wave">🌊 Волна</option>
+                    </select>
+                </div>
+
+                <div class="animation-selector">
+                    <label for="swayType">🍃 Покачивание:</label>
+                    <select id="swayType">
+                        <option value="random">🎲 Случайное</option>
+                        <option value="gentle">🌸 Нежное</option>
+                        <option value="wind">💨 Ветер</option>
+                        <option value="dance">💃 Танец</option>
+                        <option value="rotate">🔄 Вращение</option>
+                        <option value="bounce">⬆️ Подпрыгивание</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button class="action-button random-button" onclick="plantRandomFlowers()">
+                        🌸 Посадить 5
+                    </button>
+                    <button class="action-button magic-button" onclick="magicGarden()">
+                        ✨ Магия!
+                    </button>
+                    <button class="action-button clear-button" onclick="clearGarden()">
+                        🧹 Очистить
+                    </button>
+                    <button class="action-button save-button" onclick="saveGarden()">
+                        💾 Сохранить
+                    </button>
+                </div>
+                
+                <div class="stats">
+                    <span>🌼 Посажено:</span>
+                    <span id="flowerCount" class="stats-number">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="garden-area" id="garden" onclick="plantFlower(event)">
+            <!-- Облака -->
+            <div class="cloud cloud1"></div>
+            <div class="cloud cloud2"></div>
+            
+            <div class="instructions">
+                ✨ Нажмите на поляну, чтобы посадить цветок с вашим именем! ✨<br>
+                <small>Выберите анимацию или позвольте магии решить!</small>
+            </div>
+            <div class="info-tooltip" id="tooltip"></div>
+        </div>
+    </div>
+
+    <script>
+        let flowerCount = 0;
+        let gardenData = [];
+        
+        // Массивы с доступными ресурсами
+        const flowers = ['flower-1.png', 'flower-2.png'];
+        const signs = ['1.png', '2.png', '3.png'];
+        const animations = ['spiral', 'bounce', 'zoom', 'flip', 'elastic', 'wave'];
+        const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce'];
+        const particleTypes = ['star', 'petal', 'sparkle', 'heart', 'butterfly'];
+        
+        // Загрузка данных при старте
+        window.addEventListener('DOMContentLoaded', function() {
+            loadGarden();
+            
+            // Убираем экран загрузки через 1.5 секунды
+            setTimeout(() => {
+                const overlay = document.querySelector('.loading-overlay');
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
+            }, 1500);
+        });
+        
+        function getRandomFlower() {
+            return flowers[Math.floor(Math.random() * flowers.length)];
+        }
+        
+        function getRandomSign() {
+            return signs[Math.floor(Math.random() * signs.length)];
+        }
+        
+        function getRandomLayout() {
+            return Math.random() > 0.5 ? 'left-layout' : 'right-layout';
+        }
+        
+        function getRandomAnimation() {
+            return animations[Math.floor(Math.random() * animations.length)];
+        }
+        
+        function getRandomSwayType() {
+            return swayTypes[Math.floor(Math.random() * swayTypes.length)];
+        }
+        
+        function getSelectedAnimation() {
+            const selector = document.getElementById('animationType');
+            const value = selector.value;
+            return value === 'random' ? getRandomAnimation() : value;
+        }
+        
+        function getSelectedSwayType() {
+            const selector = document.getElementById('swayType');
+            const value = selector.value;
+            return value === 'random' ? getRandomSwayType() : value;
+        }
+        
+        function plantFlower(event) {
+            // Проверяем, не кликнули ли на существующий цветок
+            if (event.target.closest('.planted-item')) {
+                return;
+            }
+            
+            const userName = document.getElementById('userName').value.trim();
+            
+            if (!userName) {
+                const input = document.getElementById('userName');
+                input.style.animation = 'shake 0.5s';
+                input.style.borderColor = '#ff6b6b';
+                setTimeout(() => {
+                    input.style.animation = '';
+                    input.style.borderColor = 'transparent';
+                }, 500);
+                
+                showNotification('🌷 Пожалуйста, введите ваше имя!');
+                return;
+            }
+            
+            const garden = document.getElementById('garden');
+            const rect = garden.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            
+            // Проверка границ
+            if (x < 60 || x > rect.width - 60 || y < 40 || y > rect.height - 80) {
+                showNotification('🌻 Посадите цветок подальше от края!');
+                return;
+            }
+            
+            // Проверка на близость к другим цветам
+            const minDistance = 100;
+            const tooClose = gardenData.some(item => {
+                const dx = item.x - x;
+                const dy = item.y - y;
+                return Math.sqrt(dx * dx + dy * dy) < minDistance;
+            });
+            
+            if (tooClose) {
+                showNotification('🌺 Слишком близко к другой композиции!');
+                return;
+            }
+            
+            // Создаем композицию
+            createFlowerComposition(x, y, userName, garden);
+        }
+        
+        function createFlowerComposition(x, y, userName, garden) {
+            const selectedFlower = getRandomFlower();
+            const selectedSign = getRandomSign();
+            const layout = getRandomLayout();
+            const animationType = getSelectedAnimation();
+            const swayType = getSelectedSwayType();
+            
+            // Создаем ID для композиции
+            const itemId = Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            
+            // Создаем контейнер для композиции
+            const plantedItem = document.createElement('div');
+            plantedItem.className = `planted-item animation-${animationType}`;
+            plantedItem.style.left = x + 'px';
+            plantedItem.style.top = y + 'px';
+            plantedItem.dataset.id = itemId;
+            plantedItem.dataset.userName = userName;
+            plantedItem.dataset.plantDate = new Date().toLocaleDateString('ru-RU');
+            
+            // Создаем контейнер для цветка и таблички
+            const container = document.createElement('div');
+            container.className = `flower-sign-container ${layout}`;
+            
+            // Создаем цветок
+            const flowerWrapper = document.createElement('div');
+            flowerWrapper.className = 'flower-wrapper';
+            
+            const flower = document.createElement('img');
+            flower.className = `flower-image sway-${swayType}`;
+            flower.src = selectedFlower;
+            flower.alt = 'Цветок';
+            
+            flowerWrapper.appendChild(flower);
+            
+            // Создаем табличку
+            const sign = document.createElement('div');
+            sign.className = 'sign';
+            
+            const signImage = document.createElement('img');
+            signImage.className = 'sign-image';
+            signImage.src = selectedSign;
+            
+            const signText = document.createElement('div');
+            signText.className = 'sign-text';
+            signText.textContent = userName;
+            
+            sign.appendChild(signImage);
+            sign.appendChild(signText);
+            
+            // Собираем композицию
+            container.appendChild(flowerWrapper);
+            container.appendChild(sign);
+            plantedItem.appendChild(container);
+            
+            // Добавляем обработчики
+            plantedItem.addEventListener('mouseenter', function(e) {
+                showFlowerInfo(this, e);
+            });
+            
+            plantedItem.addEventListener('mouseleave', function() {
+                hideFlowerInfo();
+            });
+            
+            plantedItem.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (confirm(`Удалить композицию "${userName}"?`)) {
+                    removeFlower(this);
+                }
+            });
+            
+            // Добавляем в сад
+            garden.appendChild(plantedItem);
+            
+            // Сохраняем данные
+            const itemData = {
+                id: itemId,
+                x: x,
+                y: y,
+                flower: selectedFlower,
+                sign: selectedSign,
+                layout: layout,
+                animation: animationType,
+                sway: swayType,
+                userName: userName,
+                plantDate: new Date().toISOString()
+            };
+            
+            gardenData.push(itemData);
+            
+            // Создаем частицы
+            createParticles(x, y, garden);
+            
+            // Обновляем счетчик
+            flowerCount++;
+            updateCounter();
+            
+            // Звук посадки
+            playPlantSound();
+            
+            // Сохраняем в localStorage
+            saveToLocalStorage();
+            
+            // Убираем инструкции после первой посадки
+            if (flowerCount === 1) {
+                const instructions = document.querySelector('.instructions');
+                if (instructions) {
+                    instructions.style.animation = 'fadeOut 0.5s forwards';
+                    setTimeout(() => instructions.remove(), 500);
+                }
+            }
+        }
+        
+        function plantRandomFlowers() {
+            const userName = document.getElementById('userName').value.trim();
+            
+            if (!userName) {
+                showNotification('🌷 Сначала введите ваше имя!');
+                return;
+            }
+            
+            const garden = document.getElementById('garden');
+            const rect = garden.getBoundingClientRect();
+            let planted = 0;
+            let attempts = 0;
+            const maxAttempts = 50;
+            
+            const plantInterval = setInterval(() => {
+                if (planted >= 5 || attempts >= maxAttempts) {
+                    clearInterval(plantInterval);
+                    if (planted > 0) {
+                        showNotification(`🌻 Посажено ${planted} цветов!`);
+                    } else {
+                        showNotification('😔 Не хватает места для новых цветов!');
+                    }
+                    return;
+                }
+                
+                attempts++;
+                
+                // Генерируем случайные координаты
+                const x = 60 + Math.random() * (rect.width - 120);
+                const y = 40 + Math.random() * (rect.height - 120);
+                
+                // Проверяем расстояние до других цветов
+                const minDistance = 100;
+                const tooClose = gardenData.some(item => {
+                    const dx = item.x - x;
+                    const dy = item.y - y;
+                    return Math.sqrt(dx * dx + dy * dy) < minDistance;
+                });
+                
+                if (!tooClose) {
+                    createFlowerComposition(x, y, userName, garden);
+                    planted++;
+                }
+            }, 200);
+        }
+        
+        function magicGarden() {
+            // Магическая функция - меняет все анимации на случайные
+            const items = document.querySelectorAll('.planted-item');
+            
+            if (items.length === 0) {
+                showNotification('✨ Сначала посадите цветы для магии!');
+                return;
+            }
+            
+            items.forEach((item, index) => {
+                setTimeout(() => {
+                    // Меняем анимацию покачивания
+                    const flower = item.querySelector('.flower-image');
+                    if (flower) {
+                        flower.className = `flower-image sway-${getRandomSwayType()}`;
+                    }
+                    
+                    // Добавляем эффект магии
+                    item.style.animation = 'none';
+                    setTimeout(() => {
+                        item.style.animation = `plant${animations[Math.floor(Math.random() * animations.length)].charAt(0).toUpperCase() + animations[Math.floor(Math.random() * animations.length)].slice(1)} 1s ease-out`;
+                    }, 10);
+                    
+                    // Создаем магические частицы
+                    const rect = item.getBoundingClientRect();
+                    const gardenRect = document.getElementById('garden').getBoundingClientRect();
+                    createMagicParticles(rect.left - gardenRect.left + rect.width / 2, rect.top - gardenRect.top, document.getElementById('garden'));
+                }, index * 100);
+            });
+            
+            showNotification('✨ Магия сада активирована!');
+            playMagicSound();
+        }
+        
+        function createMagicParticles(x, y, garden) {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle particle-sparkle';
+                    particle.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                    
+                    const angle = (Math.PI * 2 * i) / 15;
+                    const distance = 30 + Math.random() * 20;
+                    
+                    particle.style.left = (x + Math.cos(angle) * distance) + 'px';
+                    particle.style.top = (y + Math.sin(angle) * distance) + 'px';
+                    
+                    garden.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 1500);
+                }, i * 30);
+            }
+        }
+        
+        function removeFlower(flowerElement) {
+            const id = flowerElement.dataset.id;
+            
+            // Анимация удаления
+            flowerElement.style.animation = 'plantSpiral 0.5s ease-out reverse';
+            
+            setTimeout(() => {
+                flowerElement.remove();
+                
+                // Удаляем из данных
+                gardenData = gardenData.filter(f => f.id !== id);
+                
+                // Обновляем счетчик
+                flowerCount--;
+                updateCounter();
+                
+                // Сохраняем
+                saveToLocalStorage();
+                
+                playRemoveSound();
+            }, 500);
+        }
+        
+        function showFlowerInfo(element, event) {
+            const tooltip = document.getElementById('tooltip');
+            const userName = element.dataset.userName;
+            const plantDate = element.dataset.plantDate;
+            
+            tooltip.innerHTML = `
+                <strong>${userName}</strong><br>
+                Посажен: ${plantDate}<br>
+                <small>Клик для удаления</small>
+            `;
+            
+            const rect = element.getBoundingClientRect();
+            const gardenRect = document.getElementById('garden').getBoundingClientRect();
+            
+            tooltip.style.left = (rect.left - gardenRect.left + rect.width / 2) + 'px';
+            tooltip.style.top = (rect.top - gardenRect.top - 10) + 'px';
+            tooltip.classList.add('show');
+        }
+        
+        function hideFlowerInfo() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.classList.remove('show');
+        }
+        
+        function createParticles(x, y, garden) {
+            const particleCount = 8 + Math.floor(Math.random() * 5);
+            
+            for (let i = 0; i < particleCount; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    const type = particleTypes[Math.floor(Math.random() * particleTypes.length)];
+                    
+                    particle.className = `particle particle-${type}`;
+                    
+                    const offsetX = (Math.random() - 0.5) * 40;
+                    const offsetY = (Math.random() - 0.5) * 40;
+                    
+                    particle.style.left = (x + offsetX) + 'px';
+                    particle.style.top = (y + offsetY) + 'px';
+                    particle.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    
+                    garden.appendChild(particle);
+                    
+                    const duration = type === 'butterfly' ? 3000 : 2000;
+                    setTimeout(() => particle.remove(), duration);
+                }, i * 60);
+            }
+        }
+        
+        function updateCounter() {
+            const counter = document.getElementById('flowerCount');
+            counter.textContent = flowerCount;
+            counter.style.animation = 'numberGlow 0.5s';
+            setTimeout(() => counter.style.animation = 'numberGlow 2s ease-in-out infinite', 500);
+        }
+        
+        function clearGarden() {
+            if (flowerCount === 0) {
+                showNotification('🌱 Сад уже пуст!');
+                return;
+            }
+            
+            if (confirm(`🌸 Удалить все ${flowerCount} композиций?\n\nЭто действие нельзя отменить!`)) {
+                const items = document.querySelectorAll('.planted-item');
+                
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.style.animation = 'plantSpiral 0.5s ease-out reverse';
+                        setTimeout(() => item.remove(), 500);
+                    }, index * 30);
+                });
+                
+                setTimeout(() => {
+                    flowerCount = 0;
+                    gardenData = [];
+                    updateCounter();
+                    saveToLocalStorage();
+                    showNotification('🌷 Сад очищен!');
+                }, items.length * 30 + 600);
+            }
+        }
+        
+        function saveGarden() {
+            if (flowerCount === 0) {
+                showNotification('🌻 Нечего сохранять!');
+                return;
+            }
+            
+            const dataStr = JSON.stringify({
+                version: '3.0',
+                date: new Date().toISOString(),
+                totalFlowers: flowerCount,
+                items: gardenData
+            }, null, 2);
+            
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const fileName = `magic_garden_${new Date().toISOString().split('T')[0]}.json`;
+            
+            const link = document.createElement('a');
+            link.href = dataUri;
+            link.download = fileName;
+            link.click();
+            
+            showNotification(`💾 Сад сохранен! (${flowerCount} композиций)`);
+        }
+        
+        function saveToLocalStorage() {
+            localStorage.setItem('magicGardenData', JSON.stringify(gardenData));
+            localStorage.setItem('magicGardenCount', flowerCount);
+        }
+        
+        function loadGarden() {
+            const savedData = localStorage.getItem('magicGardenData');
+            const savedCount = localStorage.getItem('magicGardenCount');
+            
+            if (savedData && savedCount) {
+                try {
+                    gardenData = JSON.parse(savedData);
+                    flowerCount = parseInt(savedCount);
+                    
+                    // Восстанавливаем композиции
+                    const garden = document.getElementById('garden');
+                    gardenData.forEach((itemData, index) => {
+                        setTimeout(() => {
+                            restoreComposition(itemData, garden);
+                        }, index * 50);
+                    });
+                    
+                    updateCounter();
+                    
+                    if (flowerCount > 0) {
+                        // Убираем инструкции если есть сохраненные композиции
+                        setTimeout(() => {
+                            const instructions = document.querySelector('.instructions');
+                            if (instructions) {
+                                instructions.remove();
+                            }
+                        }, 100);
+                    }
+                } catch (e) {
+                    console.error('Ошибка загрузки сада:', e);
+                }
+            }
+        }
+        
+        function restoreComposition(itemData, garden) {
+            const plantedItem = document.createElement('div');
+            plantedItem.className = `planted-item animation-${itemData.animation || 'spiral'}`;
+            plantedItem.style.left = itemData.x + 'px';
+            plantedItem.style.top = itemData.y + 'px';
+            plantedItem.dataset.id = itemData.id;
+            plantedItem.dataset.userName = itemData.userName;
+            plantedItem.dataset.plantDate = new Date(itemData.plantDate).toLocaleDateString('ru-RU');
+            
+            const container = document.createElement('div');
+            container.className = `flower-sign-container ${itemData.layout || 'left-layout'}`;
+            
+            const flowerWrapper = document.createElement('div');
+            flowerWrapper.className = 'flower-wrapper';
+            
+            const flower = document.createElement('img');
+            flower.className = `flower-image sway-${itemData.sway || 'gentle'}`;
+            flower.src = itemData.flower;
+            flower.alt = 'Цветок';
+            
+            flowerWrapper.appendChild(flower);
+            
+            const sign = document.createElement('div');
+            sign.className = 'sign';
+            
+            const signImage = document.createElement('img');
+            signImage.className = 'sign-image';
+            signImage.src = itemData.sign;
+            
+            const signText = document.createElement('div');
+            signText.className = 'sign-text';
+            signText.textContent = itemData.userName;
+            
+            sign.appendChild(signImage);
+            sign.appendChild(signText);
+            
+            container.appendChild(flowerWrapper);
+            container.appendChild(sign);
+            plantedItem.appendChild(container);
+            
+            // Добавляем обработчики
+            plantedItem.addEventListener('mouseenter', function(e) {
+                showFlowerInfo(this, e);
+            });
+            
+            plantedItem.addEventListener('mouseleave', function() {
+                hideFlowerInfo();
+            });
+            
+            plantedItem.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (confirm(`Удалить композицию "${itemData.userName}"?`)) {
+                    removeFlower(this);
+                }
+            });
+            
+            garden.appendChild(plantedItem);
+        }
+        
+        // Звуковые эффекты
+        function playPlantSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                // Арпеджио
+                const notes = [261.63, 329.63, 392, 523.25]; // C, E, G, C
+                const noteIndex = Math.floor(Math.random() * notes.length);
+                
+                oscillator.frequency.setValueAtTime(notes[noteIndex], audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(notes[(noteIndex + 1) % notes.length], audioContext.currentTime + 0.1);
+                oscillator.frequency.exponentialRampToValueAtTime(notes[(noteIndex + 2) % notes.length], audioContext.currentTime + 0.2);
+                
+                gainNode.gain.setValueAtTime(0.12, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.4);
+            } catch (e) {}
+        }
+        
+        function playMagicSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Создаем несколько осцилляторов для магического звука
+                for (let i = 0; i < 3; i++) {
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.setValueAtTime(523.25 * (i + 1), audioContext.currentTime);
+                    oscillator.frequency.exponentialRampToValueAtTime(1046.5, audioContext.currentTime + 0.5);
+                    
+                    gainNode.gain.setValueAtTime(0.05, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                    
+                    oscillator.start(audioContext.currentTime + i * 0.1);
+                    oscillator.stop(audioContext.currentTime + 0.5 + i * 0.1);
+                }
+            } catch (e) {}
+        }
+        
+        function playRemoveSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(440, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(110, audioContext.currentTime + 0.3);
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (e) {}
+        }
+        
+        function showNotification(message) {
+            const existing = document.querySelector('.notification');
+            if (existing) existing.remove();
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'notificationFade 0.5s ease-out';
+                setTimeout(() => notification.remove(), 500);
+            }, 2500);
+        }
+        
+        // Автосохранение каждые 30 секунд
+        setInterval(() => {
+            if (flowerCount > 0) {
+                saveToLocalStorage();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

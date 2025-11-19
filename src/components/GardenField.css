@@ -1,0 +1,498 @@
+.garden-area {
+  flex: 1;
+  position: relative;
+  background-image: url('/backbround.png');
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  overflow: hidden;
+  min-height: 0;
+  animation: gardenFadeIn 1.5s ease-out;
+}
+
+@keyframes gardenFadeIn {
+  from {
+    opacity: 0;
+    filter: blur(20px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.garden-area::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom,
+    rgba(135, 206, 235, 0) 0%,
+    rgba(135, 206, 235, 0) 70%,
+    rgba(46, 125, 50, 0.03) 100%);
+  pointer-events: none;
+}
+
+/* Облака */
+.cloud {
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+  opacity: 0.7;
+  animation: cloudFloat 30s linear infinite;
+  pointer-events: none;
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: white;
+  border-radius: 100px;
+}
+
+.cloud1 {
+  width: 100px;
+  height: 40px;
+  top: 20%;
+  left: -100px;
+}
+
+.cloud1::before {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  left: 10px;
+}
+
+.cloud1::after {
+  width: 60px;
+  height: 40px;
+  top: -15px;
+  right: 10px;
+}
+
+.cloud2 {
+  width: 80px;
+  height: 35px;
+  top: 10%;
+  left: -80px;
+  animation-delay: 15s;
+  animation-duration: 35s;
+}
+
+.cloud2::before {
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  left: 15px;
+}
+
+.cloud2::after {
+  width: 50px;
+  height: 35px;
+  top: -10px;
+  right: 15px;
+}
+
+@keyframes cloudFloat {
+  to {
+    transform: translateX(calc(100vw + 200px));
+  }
+}
+
+/* Посаженные цветы */
+.planted-item {
+  position: absolute;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.planted-item:hover {
+  transform: scale(1.05);
+  z-index: 20;
+  filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
+}
+
+.planted-item.animation-spiral {
+  animation: plantSpiral 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes plantSpiral {
+  from {
+    transform: scale(0) rotate(720deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.planted-item.animation-bounce {
+  animation: plantBounce 1s ease-out;
+}
+
+@keyframes plantBounce {
+  0% {
+    transform: scale(0) translateY(-300px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2) translateY(0);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.9) translateY(0);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+.planted-item.animation-zoom {
+  animation: plantZoom 0.8s ease-out;
+}
+
+@keyframes plantZoom {
+  from {
+    transform: scale(5);
+    opacity: 0;
+    filter: blur(20px);
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.planted-item.animation-flip {
+  animation: plantFlip 1s ease-out;
+}
+
+@keyframes plantFlip {
+  from {
+    transform: rotateY(360deg) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: rotateY(180deg) scale(1.2);
+  }
+  to {
+    transform: rotateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+.planted-item.animation-elastic {
+  animation: plantElastic 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes plantElastic {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  30% {
+    transform: scale(1.3) scaleY(0.7);
+  }
+  40% {
+    transform: scale(0.8) scaleY(1.2);
+  }
+  60% {
+    transform: scale(1.15) scaleY(0.85);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.planted-item.animation-wave {
+  animation: plantWave 1s ease-out;
+}
+
+@keyframes plantWave {
+  0% {
+    transform: scale(0) translateX(-100px) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1) translateX(50px) rotate(90deg);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1) translateX(0) rotate(0);
+    opacity: 1;
+  }
+}
+
+.flower-sign-container {
+  position: relative;
+  transform: translate(-50%, -100%);
+  display: flex;
+  align-items: flex-end;
+  gap: -10px;
+}
+
+.flower-sign-container.left-layout {
+  flex-direction: row;
+}
+
+.flower-sign-container.right-layout {
+  flex-direction: row-reverse;
+}
+
+.flower-wrapper {
+  position: relative;
+  z-index: 2;
+  margin-bottom: -5px;
+}
+
+.flower-image {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+  display: block;
+}
+
+.flower-image.sway-gentle {
+  animation: flowerSwayGentle 4s ease-in-out infinite;
+}
+
+@keyframes flowerSwayGentle {
+  0%, 100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+  50% {
+    transform: rotate(2deg) translateY(-2px);
+  }
+}
+
+.flower-image.sway-wind {
+  animation: flowerSwayWind 2.5s ease-in-out infinite;
+}
+
+@keyframes flowerSwayWind {
+  0%, 100% {
+    transform: rotate(-5deg) translateX(0);
+  }
+  25% {
+    transform: rotate(3deg) translateX(2px);
+  }
+  50% {
+    transform: rotate(5deg) translateX(-2px);
+  }
+  75% {
+    transform: rotate(-3deg) translateX(1px);
+  }
+}
+
+.flower-image.sway-dance {
+  animation: flowerDance 3s ease-in-out infinite;
+}
+
+@keyframes flowerDance {
+  0%, 100% {
+    transform: rotate(-3deg) scale(1);
+  }
+  25% {
+    transform: rotate(2deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(3deg) scale(1);
+  }
+  75% {
+    transform: rotate(-2deg) scale(1.02);
+  }
+}
+
+.flower-image.sway-rotate {
+  animation: flowerRotate 6s linear infinite;
+}
+
+@keyframes flowerRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.flower-image.sway-bounce {
+  animation: flowerBounce 2s ease-in-out infinite;
+}
+
+@keyframes flowerBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-5px) scale(1.05);
+  }
+}
+
+.sign {
+  position: relative;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,0.35));
+  animation: signAppear 0.3s ease-out 0.3s both;
+  z-index: 1;
+  margin-bottom: 0;
+}
+
+.left-layout .sign {
+  margin-left: -15px;
+}
+
+.right-layout .sign {
+  margin-right: -15px;
+}
+
+@keyframes signAppear {
+  from {
+    transform: scale(0) rotateY(180deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+.sign-image {
+  width: 85px;
+  height: auto;
+  display: block;
+}
+
+.sign-text {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 11px;
+  font-weight: bold;
+  color: #3E2723;
+  text-align: center;
+  white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.5);
+  font-family: 'Comic Sans MS', 'Segoe Print', cursive;
+  max-width: 65px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 0.3px;
+}
+
+.instructions {
+  position: absolute;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, rgba(0,0,0,0.85), rgba(0,0,0,0.7));
+  color: white;
+  padding: 12px 25px;
+  border-radius: 25px;
+  font-size: 15px;
+  z-index: 50;
+  animation: instructionsPulse 2s infinite, slideUp 0.5s ease-out;
+  box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  text-align: center;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(50px);
+    opacity: 0;
+  }
+}
+
+@keyframes instructionsPulse {
+  0%, 100% {
+    box-shadow: 0 5px 25px rgba(0,0,0,0.4);
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    box-shadow: 0 5px 35px rgba(147,112,219,0.6);
+    transform: translateX(-50%) scale(1.02);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+}
+
+.info-tooltip {
+  position: absolute;
+  background: rgba(0,0,0,0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 15px;
+  font-size: 12px;
+  pointer-events: none;
+  z-index: 200;
+  transform: translate(-50%, -100%);
+  margin-top: -10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.info-tooltip.show {
+  opacity: 1;
+  animation: tooltipBounce 0.5s ease-out;
+}
+
+@keyframes tooltipBounce {
+  0% {
+    transform: translate(-50%, -80%);
+  }
+  50% {
+    transform: translate(-50%, -110%);
+  }
+  100% {
+    transform: translate(-50%, -100%);
+  }
+}
+
+.info-tooltip::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid rgba(0,0,0,0.9);
+}
+
+@media (max-width: 768px) {
+  .flower-image {
+    width: 55px;
+    height: 55px;
+  }
+
+  .sign-image {
+    width: 75px;
+  }
+}
