@@ -3,7 +3,10 @@ import './GuestList.css'
 function GuestList({ guests, deleteGuest }) {
   return (
     <div className="guest-list-container">
-      <h1 className="title">Список Гостей</h1>
+      <div className="header">
+        <h1 className="title">Список Гостей</h1>
+        <div className="auto-update-badge">🔄 Автообновление</div>
+      </div>
 
       {guests.length === 0 ? (
         <p className="empty-message">Пока нет гостей. Добавьте первого гостя!</p>

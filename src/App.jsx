@@ -7,17 +7,51 @@ import './App.css'
 function App() {
   const [guests, setGuests] = useState([])
 
-  // Загрузка гостей из localStorage при загрузке
-  useEffect(() => {
+  // Функция для загрузки гостей из localStorage
+  const loadGuests = () => {
     const savedGuests = localStorage.getItem('guests')
     if (savedGuests) {
-      setGuests(JSON.parse(savedGuests))
+      const parsedGuests = JSON.parse(savedGuests)
+      setGuests(parsedGuests)
     }
+  }
+
+  // Загрузка гостей из localStorage при загрузке
+  useEffect(() => {
+    loadGuests()
   }, [])
 
   // Сохранение гостей в localStorage при изменении
   useEffect(() => {
     localStorage.setItem('guests', JSON.stringify(guests))
+  }, [guests])
+
+  // Автоматическое обновление: слушатель события storage (для синхронизации между вкладками)
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'guests') {
+        loadGuests()
+      }
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    return () => window.removeEventListener('storage', handleStorageChange)
+  }, [])
+
+  // Автоматическое обновление: периодическая проверка каждые 2 секунды
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const savedGuests = localStorage.getItem('guests')
+      if (savedGuests) {
+        const parsedGuests = JSON.parse(savedGuests)
+        // Обновляем только если данные изменились
+        if (JSON.stringify(parsedGuests) !== JSON.stringify(guests)) {
+          setGuests(parsedGuests)
+        }
+      }
+    }, 2000)
+
+    return () => clearInterval(interval)
   }, [guests])
 
   const addGuest = (name) => {
