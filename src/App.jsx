@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { ref, onValue, set, remove } from 'firebase/database'
 import { database } from './firebase'
@@ -114,11 +114,6 @@ function App() {
   return (
     <Router basename="/crocus">
       <div className="app">
-        <nav className="navigation">
-          <Link to="/" className="nav-link">🌼 Волшебный Сад</Link>
-          <Link to="/add" className="nav-link">🌸 Добавить Цветок</Link>
-        </nav>
-
         <Routes>
           <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} />} />
           <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} onRemoveAllFlowers={removeAllFlowers} onRemoveFirstFive={removeFirstFiveFlowers} existingFlowers={flowers} />} />
