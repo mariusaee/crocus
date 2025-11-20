@@ -59,10 +59,10 @@
 
 @keyframes plantSpiral {
   from {
-    transform: scale(0) rotate(720deg);
+    transform: translate(-50%, -50%) scale(0) rotate(720deg);
   }
   to {
-    transform: scale(1) rotate(0deg);
+    transform: translate(-50%, -50%) scale(1) rotate(0deg);
   }
 }
 
@@ -72,16 +72,16 @@
 
 @keyframes plantBounce {
   0% {
-    transform: scale(0) translateY(-300px);
+    transform: translate(-50%, -50%) scale(0) translateY(-300px);
   }
   60% {
-    transform: scale(1.2) translateY(0);
+    transform: translate(-50%, -50%) scale(1.2) translateY(0);
   }
   80% {
-    transform: scale(0.9) translateY(0);
+    transform: translate(-50%, -50%) scale(0.9) translateY(0);
   }
   100% {
-    transform: scale(1) translateY(0);
+    transform: translate(-50%, -50%) scale(1) translateY(0);
   }
 }
 
@@ -91,11 +91,11 @@
 
 @keyframes plantZoom {
   from {
-    transform: scale(5);
+    transform: translate(-50%, -50%) scale(5);
     filter: blur(20px);
   }
   to {
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
     filter: blur(0);
   }
 }
@@ -106,13 +106,13 @@
 
 @keyframes plantFlip {
   from {
-    transform: rotateY(360deg) scale(0);
+    transform: translate(-50%, -50%) rotateY(360deg) scale(0);
   }
   50% {
-    transform: rotateY(180deg) scale(1.2);
+    transform: translate(-50%, -50%) rotateY(180deg) scale(1.2);
   }
   to {
-    transform: rotateY(0) scale(1);
+    transform: translate(-50%, -50%) rotateY(0) scale(1);
   }
 }
 
@@ -122,19 +122,19 @@
 
 @keyframes plantElastic {
   0% {
-    transform: scale(0);
+    transform: translate(-50%, -50%) scale(0);
   }
   30% {
-    transform: scale(1.3) scaleY(0.7);
+    transform: translate(-50%, -50%) scale(1.3) scaleY(0.7);
   }
   40% {
-    transform: scale(0.8) scaleY(1.2);
+    transform: translate(-50%, -50%) scale(0.8) scaleY(1.2);
   }
   60% {
-    transform: scale(1.15) scaleY(0.85);
+    transform: translate(-50%, -50%) scale(1.15) scaleY(0.85);
   }
   100% {
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
 }
 
@@ -144,13 +144,13 @@
 
 @keyframes plantWave {
   0% {
-    transform: scale(0) translateX(-100px) rotate(-180deg);
+    transform: translate(-50%, -50%) scale(0) translateX(-100px) rotate(-180deg);
   }
   50% {
-    transform: scale(1.1) translateX(50px) rotate(90deg);
+    transform: translate(-50%, -50%) scale(1.1) translateX(50px) rotate(90deg);
   }
   100% {
-    transform: scale(1) translateX(0) rotate(0);
+    transform: translate(-50%, -50%) scale(1) translateX(0) rotate(0);
   }
 }
 
