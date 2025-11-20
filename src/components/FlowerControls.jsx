@@ -20,7 +20,7 @@ const randomNames = [
   'Maya', 'Nico', 'Owen', 'Piper', 'Reed', 'Sky', 'Theo', 'Ula'
 ]
 
-function FlowerControls({ onAddFlower, onRemoveAllFlowers, onRemoveFirstFive, existingFlowers }) {
+function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRemoveFirstFive, existingFlowers }) {
   const [userName, setUserName] = useState('')
   const [animationType, setAnimationType] = useState('random')
   const [swayType, setSwayType] = useState('random')
@@ -89,8 +89,19 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, onRemoveFirstFive, ex
       return
     }
 
-    const lastFlower = existingFlowers[existingFlowers.length - 1]
-    alert(`🗑️ Чтобы удалить цветок "${lastFlower.userName}", перейдите в Волшебный Сад и кликните на него`)
+    // Находим самый новый цветок (последний посаженный)
+    const sortedFlowers = [...existingFlowers].sort((a, b) => {
+      const dateA = new Date(a.plantDate).getTime()
+      const dateB = new Date(b.plantDate).getTime()
+      return dateB - dateA // Сортируем от новых к старым
+    })
+
+    const lastFlower = sortedFlowers[0]
+    const confirmed = confirm(`Удалить последний цветок "${lastFlower.userName}"?`)
+    if (confirmed) {
+      onRemoveFlower(lastFlower.id)
+      alert(`🗑️ Цветок "${lastFlower.userName}" удалён!`)
+    }
   }
 
   const removeAllFlowers = () => {
