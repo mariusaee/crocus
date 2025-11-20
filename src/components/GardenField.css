@@ -43,13 +43,14 @@
   position: absolute;
   pointer-events: auto;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  transform: translate(-50%, -50%);
 }
 
 .planted-item:hover {
-  transform: scale(1.05);
+  transform: translate(-50%, -50%) scale(1.15);
   z-index: 20;
-  filter: drop-shadow(0 0 20px rgba(255,215,0,0.5));
+  filter: drop-shadow(0 0 25px rgba(255,215,0,0.8)) brightness(1.15);
 }
 
 .planted-item.animation-spiral {
@@ -176,10 +177,10 @@
 }
 
 .flower-image {
-  width: 65px;
-  height: 65px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.3));
   display: block;
 }
 
@@ -413,11 +414,7 @@
 
 @media (max-width: 768px) {
   .flower-image {
-    width: 55px;
-    height: 55px;
-  }
-
-  .sign-image {
-    width: 75px;
+    width: 70px;
+    height: 70px;
   }
 }
