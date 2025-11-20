@@ -1,15 +1,26 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import './GardenField.css'
 
 function GardenField({ flowers, onRemoveFlower }) {
   const gardenRef = useRef(null)
+  const [isGardenReady, setIsGardenReady] = useState(false)
+
+  // Убеждаемся, что контейнер готов перед рендерингом цветов
+  useEffect(() => {
+    if (gardenRef.current && gardenRef.current.clientWidth > 0 && gardenRef.current.clientHeight > 0) {
+      setIsGardenReady(true)
+    }
+  }, [])
 
   // Конвертируем процентные координаты в пиксельные
   const getPixelPosition = (flower) => {
-    if (!gardenRef.current) return { x: 0, y: 0 }
+    if (!gardenRef.current) return null
 
     const gardenWidth = gardenRef.current.clientWidth
     const gardenHeight = gardenRef.current.clientHeight
+
+    // Проверяем, что размеры валидны
+    if (gardenWidth === 0 || gardenHeight === 0) return null
 
     // Если есть старые координаты в пикселях (для обратной совместимости)
     if (flower.x !== undefined && flower.y !== undefined) {
@@ -96,11 +107,15 @@ function GardenField({ flowers, onRemoveFlower }) {
       }}></div>
 
       {/* Цветы */}
-      {flowers.map((flower) => {
-        // Не рендерим цветок, пока у него нет координат (предотвращает телепортацию)
+      {isGardenReady && flowers.map((flower) => {
+        // Не рендерим цветок, пока у него нет координат
         if (!flower.xPercent || !flower.yPercent) return null
 
-        const { x, y } = getPixelPosition(flower)
+        const position = getPixelPosition(flower)
+        // Не рендерим, если позиция не рассчитана (контейнер не готов)
+        if (!position) return null
+
+        const { x, y } = position
         return (
           <div
             key={flower.id}
