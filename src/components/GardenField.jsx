@@ -97,6 +97,9 @@ function GardenField({ flowers, onRemoveFlower }) {
 
       {/* Цветы */}
       {flowers.map((flower) => {
+        // Не рендерим цветок, пока у него нет координат (предотвращает телепортацию)
+        if (!flower.xPercent || !flower.yPercent) return null
+
         const { x, y } = getPixelPosition(flower)
         return (
           <div
