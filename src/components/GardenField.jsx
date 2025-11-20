@@ -86,9 +86,9 @@ function GardenField({ flowers, onRemoveFlower }) {
       <div style={{
         position: 'absolute',
         left: '2%',
-        top: '30%',
+        top: '33%',
         width: '96%',
-        height: '68%',
+        height: '65%',
         border: '3px solid red',
         pointerEvents: 'none',
         zIndex: 1000,
