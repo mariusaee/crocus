@@ -7,6 +7,19 @@ const signs = ['sign1.png', 'sign2.png', 'sign3.png']
 const animations = ['spiral', 'bounce', 'zoom', 'flip', 'elastic', 'wave']
 const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce']
 
+// Случайные имена на латинице
+const randomNames = [
+  'Alice', 'Bob', 'Charlie', 'David', 'Emma', 'Frank', 'Grace', 'Henry',
+  'Ivy', 'Jack', 'Kate', 'Leo', 'Mia', 'Noah', 'Olivia', 'Peter',
+  'Quinn', 'Rose', 'Sam', 'Tina', 'Uma', 'Victor', 'Wendy', 'Xander',
+  'Yara', 'Zoe', 'Alex', 'Blake', 'Chris', 'Dana', 'Eli', 'Finn',
+  'Gabe', 'Hana', 'Ian', 'Jade', 'Kyle', 'Luna', 'Max', 'Nina',
+  'Oscar', 'Pam', 'Quin', 'Rex', 'Sara', 'Tom', 'Uri', 'Vera',
+  'Will', 'Xena', 'Yale', 'Zara', 'Ace', 'Bea', 'Cody', 'Demi',
+  'Ezra', 'Faye', 'Gia', 'Hugo', 'Iris', 'Jude', 'Kira', 'Liam',
+  'Maya', 'Nico', 'Owen', 'Piper', 'Reed', 'Sky', 'Theo', 'Ula'
+]
+
 function FlowerControls({ onAddFlower, onRemoveAllFlowers, onRemoveFirstFive, existingFlowers }) {
   const [userName, setUserName] = useState('')
   const [animationType, setAnimationType] = useState('random')
@@ -50,14 +63,11 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, onRemoveFirstFive, ex
   }
 
   const plantRandomFlowers = () => {
-    if (!userName.trim()) {
-      alert('🌷 Сначала введите ваше имя!')
-      return
-    }
-
     for (let i = 0; i < 5; i++) {
       setTimeout(() => {
-        createFlowerComposition(userName.trim())
+        // Выбираем случайное имя из массива
+        const randomName = randomNames[Math.floor(Math.random() * randomNames.length)]
+        createFlowerComposition(randomName)
       }, i * 200)
     }
   }
@@ -169,7 +179,7 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, onRemoveFirstFive, ex
             🌺 Посадить 1 цветок
           </button>
           <button className="action-button random-button" onClick={plantRandomFlowers}>
-            🌸 Посадить 5 цветов
+            🌸 Посадить 5 случайных
           </button>
           <button className="action-button random-button" onClick={plant100Flowers}>
             🌻 Посадить 100 цветов
