@@ -8,7 +8,6 @@ import './App.css'
 
 function App() {
   const [flowers, setFlowers] = useState([])
-  const [highlightedFlowerId, setHighlightedFlowerId] = useState(null)
 
   // Подписка на изменения в Firebase в реальном времени
   useEffect(() => {
@@ -75,15 +74,9 @@ function App() {
       yPercent
     }
 
-    // Устанавливаем ID цветка для подсветки
-    setHighlightedFlowerId(flowerData.id)
-
     // Сохраняем в Firebase
     const flowerRef = ref(database, `flowers/${flowerData.id}`)
     set(flowerRef, flowerWithPosition)
-
-    // Возвращаем ID для навигации
-    return flowerData.id
   }
 
   const removeFlower = (id) => {
@@ -107,7 +100,7 @@ function App() {
         </nav>
 
         <Routes>
-          <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} highlightedFlowerId={highlightedFlowerId} onClearHighlight={() => setHighlightedFlowerId(null)} />} />
+          <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} />} />
           <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} onRemoveAllFlowers={removeAllFlowers} existingFlowers={flowers} />} />
         </Routes>
       </div>

@@ -1,28 +1,8 @@
-import { useRef, useEffect } from 'react'
+import { useRef } from 'react'
 import './GardenField.css'
 
-function GardenField({ flowers, onRemoveFlower, highlightedFlowerId, onClearHighlight }) {
+function GardenField({ flowers, onRemoveFlower }) {
   const gardenRef = useRef(null)
-  const highlightedRef = useRef(null)
-
-  // Эффект для фокусировки на новом цветке
-  useEffect(() => {
-    if (highlightedFlowerId && highlightedRef.current) {
-      // Небольшая задержка для завершения рендера
-      setTimeout(() => {
-        highlightedRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-          inline: 'center'
-        })
-
-        // Убираем подсветку через 4 секунды
-        setTimeout(() => {
-          onClearHighlight?.()
-        }, 4000)
-      }, 100)
-    }
-  }, [highlightedFlowerId, onClearHighlight])
 
   // Конвертируем процентные координаты в пиксельные
   const getPixelPosition = (flower) => {
@@ -105,12 +85,10 @@ function GardenField({ flowers, onRemoveFlower, highlightedFlowerId, onClearHigh
       {/* Цветы */}
       {flowers.map((flower) => {
         const { x, y } = getPixelPosition(flower)
-        const isHighlighted = flower.id === highlightedFlowerId
         return (
           <div
             key={flower.id}
-            ref={isHighlighted ? highlightedRef : null}
-            className={`planted-item animation-${flower.animation} ${isHighlighted ? 'highlighted-flower' : ''}`}
+            className={`planted-item animation-${flower.animation}`}
             style={{ left: x + 'px', top: y + 'px' }}
             onClick={() => handleFlowerClick(flower)}
             onMouseEnter={(e) => handleFlowerHover(e, flower)}
