@@ -4,6 +4,7 @@ import { ref, onValue, set, remove } from 'firebase/database'
 import { database } from './firebase'
 import GardenField from './components/GardenField'
 import FlowerControls from './components/FlowerControls'
+import { FLOWER_POSITIONS, MAX_FLOWERS } from './utils/flowerPositions'
 import './App.css'
 
 function App() {
@@ -32,51 +33,47 @@ function App() {
   }, [])
 
   const addFlower = (flowerData) => {
-    // Генерируем координаты в процентах с безопасными отступами от краев
-    // и проверкой минимального расстояния до других цветов
-    const minDistance = 12 // Минимальное расстояние в процентах между цветами
-    const maxAttempts = 50 // Максимальное количество попыток найти свободное место
-
-    let xPercent, yPercent
-    let attempt = 0
-    let positionFound = false
-
-    // Пытаемся найти позицию с минимальным расстоянием от других цветов
-    while (attempt < maxAttempts && !positionFound) {
-      xPercent = 8 + Math.random() * 84  // 8%-92% по ширине (весь экран)
-      yPercent = 52 + Math.random() * 46  // 52%-98% по высоте (вся область травы от горизонта до низа)
-
-      // Проверяем расстояние до всех существующих цветов
-      positionFound = true
-      for (const flower of flowers) {
-        // Используем процентные координаты или конвертируем старые пиксельные
-        const flowerX = flower.xPercent !== undefined ? flower.xPercent : 50
-        const flowerY = flower.yPercent !== undefined ? flower.yPercent : 70
-
-        // Вычисляем расстояние между точками
-        const distance = Math.sqrt(
-          Math.pow(xPercent - flowerX, 2) +
-          Math.pow(yPercent - flowerY, 2)
-        )
-
-        if (distance < minDistance) {
-          positionFound = false
-          break
-        }
-      }
-
-      attempt++
+    // Проверяем лимит цветов
+    if (flowers.length >= MAX_FLOWERS) {
+      console.log('🤖 Достигнут лимит цветов:', MAX_FLOWERS)
+      return null
     }
+
+    // Получаем список занятых позиций
+    const occupiedPositions = new Set(
+      flowers.map(f => f.positionIndex).filter(idx => idx !== undefined)
+    )
+
+    // Находим первую свободную позицию
+    let freePositionIndex = -1
+    for (let i = 0; i < FLOWER_POSITIONS.length; i++) {
+      if (!occupiedPositions.has(i)) {
+        freePositionIndex = i
+        break
+      }
+    }
+
+    // Если нет свободных позиций, выходим
+    if (freePositionIndex === -1) {
+      console.log('🤖 Нет свободных позиций')
+      return null
+    }
+
+    // Получаем координаты из предопределенной позиции
+    const position = FLOWER_POSITIONS[freePositionIndex]
 
     const flowerWithPosition = {
       ...flowerData,
-      xPercent,
-      yPercent
+      positionIndex: freePositionIndex,
+      xPercent: position.xPercent,
+      yPercent: position.yPercent
     }
 
     // Сохраняем в Firebase
     const flowerRef = ref(database, `flowers/${flowerData.id}`)
     set(flowerRef, flowerWithPosition)
+
+    return freePositionIndex
   }
 
   const removeFlower = (id) => {

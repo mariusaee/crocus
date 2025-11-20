@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { MAX_FLOWERS } from '../utils/flowerPositions'
 import './FlowerControls.css'
 
 const flowers = ['flower1.png', 'flower2.png']
@@ -54,6 +55,11 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
   }
 
   const plantRandomFlower = () => {
+    if (existingFlowers.length >= MAX_FLOWERS) {
+      alert(`🌻 Сад полон! Достигнут лимит в ${MAX_FLOWERS} цветов. Удалите старые цветы перед добавлением новых.`)
+      return
+    }
+
     if (!userName.trim()) {
       alert('🌷 Сначала введите ваше имя!')
       return
@@ -63,7 +69,21 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
   }
 
   const plantRandomFlowers = () => {
-    for (let i = 0; i < 5; i++) {
+    const availableSlots = MAX_FLOWERS - existingFlowers.length
+
+    if (availableSlots === 0) {
+      alert(`🌻 Сад полон! Достигнут лимит в ${MAX_FLOWERS} цветов.`)
+      return
+    }
+
+    const countToAdd = Math.min(5, availableSlots)
+
+    if (countToAdd < 5) {
+      const confirmed = confirm(`В саду осталось место только для ${countToAdd} цветов. Посадить ${countToAdd}?`)
+      if (!confirmed) return
+    }
+
+    for (let i = 0; i < countToAdd; i++) {
       setTimeout(() => {
         // Выбираем случайное имя из массива
         const randomName = randomNames[Math.floor(Math.random() * randomNames.length)]
@@ -73,10 +93,23 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
   }
 
   const plant100Flowers = () => {
-    const confirmed = confirm('Посадить 100 цветков с номерами от 1 до 100? Это займёт около 20 секунд.')
+    const availableSlots = MAX_FLOWERS - existingFlowers.length
+
+    if (availableSlots === 0) {
+      alert(`🌻 Сад полон! Достигнут лимит в ${MAX_FLOWERS} цветов.`)
+      return
+    }
+
+    const countToAdd = Math.min(100, availableSlots)
+    const timeEstimate = Math.ceil(countToAdd * 0.2)
+
+    const confirmed = confirm(
+      `Посадить ${countToAdd} цветков с номерами? Это займёт около ${timeEstimate} секунд.\n` +
+      `(В саду осталось ${availableSlots} свободных мест)`
+    )
     if (!confirmed) return
 
-    for (let i = 1; i <= 100; i++) {
+    for (let i = 1; i <= countToAdd; i++) {
       setTimeout(() => {
         createFlowerComposition(String(i))
       }, (i - 1) * 200)
@@ -138,6 +171,17 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
           <span className="title-icon">🌻</span>
           Добавить Цветок
         </h1>
+
+        <div className="flower-counter" style={{
+          textAlign: 'center',
+          margin: '10px 0 20px',
+          fontSize: '18px',
+          fontWeight: 'bold',
+          color: existingFlowers.length >= MAX_FLOWERS ? '#d32f2f' : '#4caf50'
+        }}>
+          🌸 {existingFlowers.length} / {MAX_FLOWERS} цветов
+          {existingFlowers.length >= MAX_FLOWERS && ' (сад полон!)'}
+        </div>
 
         <div className="control-group">
           <label htmlFor="userName">👤 Ваше Имя:</label>
