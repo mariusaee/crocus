@@ -2,7 +2,7 @@
   flex: 1;
   position: relative;
   background-image: url('/background.png');
-  background-size: cover;
+  background-size: 100% 100%;
   background-position: center bottom;
   background-repeat: no-repeat;
   overflow: hidden;
