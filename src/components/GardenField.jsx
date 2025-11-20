@@ -85,10 +85,10 @@ function GardenField({ flowers, onRemoveFlower }) {
       {/* Красный прямоугольник границ посадки */}
       <div style={{
         position: 'absolute',
-        left: '5%',
-        top: '40%',
-        width: '90%',
-        height: '58%',
+        left: '2%',
+        top: '30%',
+        width: '96%',
+        height: '68%',
         border: '3px solid red',
         pointerEvents: 'none',
         zIndex: 1000,
