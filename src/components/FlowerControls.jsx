@@ -85,34 +85,36 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
 
     for (let i = 0; i < countToAdd; i++) {
       setTimeout(() => {
-        // Выбираем случайное имя из массива
         const randomName = randomNames[Math.floor(Math.random() * randomNames.length)]
         createFlowerComposition(randomName)
-      }, i * 200)
+      }, i * 100) // Ускорено с 200мс до 100мс
     }
   }
 
-  const plant100Flowers = () => {
+  const fillGarden = () => {
     const availableSlots = MAX_FLOWERS - existingFlowers.length
 
     if (availableSlots === 0) {
-      alert(`🌻 Сад полон! Достигнут лимит в ${MAX_FLOWERS} цветов.`)
+      alert(`🌻 Сад уже полон! Все ${MAX_FLOWERS} мест заняты.`)
       return
     }
 
-    const countToAdd = Math.min(100, availableSlots)
-    const timeEstimate = Math.ceil(countToAdd * 0.2)
+    const timeEstimate = Math.ceil(availableSlots * 0.1)
 
     const confirmed = confirm(
-      `Посадить ${countToAdd} цветков с номерами? Это займёт около ${timeEstimate} секунд.\n` +
-      `(В саду осталось ${availableSlots} свободных мест)`
+      `Заполнить весь сад?\n\n` +
+      `Будет посажено: ${availableSlots} цветов\n` +
+      `Время: ~${timeEstimate} сек.\n\n` +
+      `Цветы получат номера от ${existingFlowers.length + 1} до ${MAX_FLOWERS}`
     )
     if (!confirmed) return
 
-    for (let i = 1; i <= countToAdd; i++) {
+    const startNumber = existingFlowers.length + 1
+
+    for (let i = 0; i < availableSlots; i++) {
       setTimeout(() => {
-        createFlowerComposition(String(i))
-      }, (i - 1) * 200)
+        createFlowerComposition(String(startNumber + i))
+      }, i * 100) // Ускорено с 200мс до 100мс
     }
   }
 
@@ -236,8 +238,8 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
           <button className="action-button random-button" onClick={plantRandomFlowers}>
             🌸 Посадить 5 случайных
           </button>
-          <button className="action-button random-button" onClick={plant100Flowers}>
-            🌻 Посадить 100 цветов
+          <button className="action-button random-button" onClick={fillGarden}>
+            🌻 Заполнить сад
           </button>
           <button className="action-button remove-button" onClick={removeLastFlower}>
             🗑️ Удалить последний
