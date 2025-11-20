@@ -7,7 +7,7 @@ const signs = ['sign1.png', 'sign2.png', 'sign3.png']
 const animations = ['spiral', 'bounce', 'zoom', 'flip', 'elastic', 'wave']
 const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce']
 
-function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
+function FlowerControls({ onAddFlower, onRemoveAllFlowers, onRemoveFirstFive, existingFlowers }) {
   const [userName, setUserName] = useState('')
   const [animationType, setAnimationType] = useState('random')
   const [swayType, setSwayType] = useState('random')
@@ -96,6 +96,20 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
     }
   }
 
+  const removeFirstFive = () => {
+    if (existingFlowers.length === 0) {
+      alert('🌱 Сад пуст, нечего удалять!')
+      return
+    }
+
+    const countToRemove = Math.min(5, existingFlowers.length)
+    const confirmed = confirm(`Удалить ${countToRemove} самых старых цветов?`)
+    if (confirmed) {
+      onRemoveFirstFive()
+      alert(`🗑️ Удалено ${countToRemove} цветов!`)
+    }
+  }
+
   return (
     <div className="flower-controls-container">
       <div className="controls-panel">
@@ -162,6 +176,9 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
           </button>
           <button className="action-button remove-button" onClick={removeLastFlower}>
             🗑️ Удалить последний
+          </button>
+          <button className="action-button remove-button" onClick={removeFirstFive}>
+            🧹 Удалить 5 старых
           </button>
           <button className="action-button remove-all-button" onClick={removeAllFlowers}>
             ❌ Удалить все
