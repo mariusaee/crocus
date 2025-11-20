@@ -82,6 +82,19 @@ function GardenField({ flowers, onRemoveFlower }) {
       <div className="cloud cloud1"></div>
       <div className="cloud cloud2"></div>
 
+      {/* Красный прямоугольник границ посадки */}
+      <div style={{
+        position: 'absolute',
+        left: '10%',
+        top: '52%',
+        width: '82%',
+        height: '46%',
+        border: '3px solid red',
+        pointerEvents: 'none',
+        zIndex: 1000,
+        boxSizing: 'border-box'
+      }}></div>
+
       {/* Цветы */}
       {flowers.map((flower) => {
         const { x, y } = getPixelPosition(flower)
