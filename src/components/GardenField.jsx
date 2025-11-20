@@ -1,38 +1,8 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef } from 'react'
 import './GardenField.css'
 
 function GardenField({ flowers, onRemoveFlower }) {
   const gardenRef = useRef(null)
-  const [isGardenReady, setIsGardenReady] = useState(false)
-
-  // Убеждаемся, что контейнер готов перед рендерингом цветов
-  useEffect(() => {
-    if (gardenRef.current && gardenRef.current.clientWidth > 0 && gardenRef.current.clientHeight > 0) {
-      setIsGardenReady(true)
-    }
-  }, [])
-
-  // Конвертируем процентные координаты в пиксельные
-  const getPixelPosition = (flower) => {
-    if (!gardenRef.current) return null
-
-    const gardenWidth = gardenRef.current.clientWidth
-    const gardenHeight = gardenRef.current.clientHeight
-
-    // Проверяем, что размеры валидны
-    if (gardenWidth === 0 || gardenHeight === 0) return null
-
-    // Если есть старые координаты в пикселях (для обратной совместимости)
-    if (flower.x !== undefined && flower.y !== undefined) {
-      return { x: flower.x, y: flower.y }
-    }
-
-    // Конвертируем проценты в пиксели
-    const x = (flower.xPercent / 100) * gardenWidth
-    const y = (flower.yPercent / 100) * gardenHeight
-
-    return { x, y }
-  }
 
 
   const handleFlowerClick = (flower) => {
@@ -107,20 +77,16 @@ function GardenField({ flowers, onRemoveFlower }) {
       }}></div>
 
       {/* Цветы */}
-      {isGardenReady && flowers.map((flower) => {
+      {flowers.map((flower) => {
         // Не рендерим цветок, пока у него нет координат
         if (!flower.xPercent || !flower.yPercent) return null
 
-        const position = getPixelPosition(flower)
-        // Не рендерим, если позиция не рассчитана (контейнер не готов)
-        if (!position) return null
-
-        const { x, y } = position
+        // Используем процентные координаты напрямую - браузер пересчитает их синхронно
         return (
           <div
             key={flower.id}
             className={`planted-item animation-${flower.animation}`}
-            style={{ left: x + 'px', top: y + 'px' }}
+            style={{ left: `${flower.xPercent}%`, top: `${flower.yPercent}%` }}
             onClick={() => handleFlowerClick(flower)}
             onMouseEnter={(e) => handleFlowerHover(e, flower)}
             onMouseLeave={handleFlowerLeave}
