@@ -47,6 +47,11 @@ function FlowerControls({ onAddFlower, onRemoveAllFlowers, existingFlowers }) {
     }
 
     createFlowerComposition(userName.trim())
+
+    // Переходим в сад через небольшую задержку для синхронизации с Firebase
+    setTimeout(() => {
+      navigate('/')
+    }, 300)
   }
 
   const plantRandomFlowers = () => {
