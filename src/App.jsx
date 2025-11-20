@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { ref, onValue, set, remove } from 'firebase/database'
 import { database } from './firebase'
 import GardenField from './components/GardenField'
@@ -9,6 +9,8 @@ import './App.css'
 
 function App() {
   const [flowers, setFlowers] = useState([])
+  // Локальное отслеживание зарезервированных позиций (для быстрого добавления нескольких цветов)
+  const reservedPositions = useRef(new Set())
 
   // Подписка на изменения в Firebase в реальном времени
   useEffect(() => {
@@ -23,8 +25,12 @@ function App() {
           id: key
         }))
         setFlowers(flowersArray)
+
+        // Очищаем резервирования - теперь позиции в Firebase
+        reservedPositions.current.clear()
       } else {
         setFlowers([])
+        reservedPositions.current.clear()
       }
     })
 
@@ -33,16 +39,18 @@ function App() {
   }, [])
 
   const addFlower = (flowerData) => {
-    // Проверяем лимит цветов
-    if (flowers.length >= MAX_FLOWERS) {
+    // Проверяем лимит цветов (учитываем и зарезервированные)
+    const totalOccupied = flowers.length + reservedPositions.current.size
+    if (totalOccupied >= MAX_FLOWERS) {
       console.log('🤖 Достигнут лимит цветов:', MAX_FLOWERS)
       return null
     }
 
-    // Получаем список занятых позиций
-    const occupiedPositions = new Set(
-      flowers.map(f => f.positionIndex).filter(idx => idx !== undefined)
-    )
+    // Получаем список занятых позиций (из Firebase + локальные резервирования)
+    const occupiedPositions = new Set([
+      ...flowers.map(f => f.positionIndex).filter(idx => idx !== undefined),
+      ...reservedPositions.current
+    ])
 
     // Находим первую свободную позицию
     let freePositionIndex = -1
@@ -59,6 +67,9 @@ function App() {
       return null
     }
 
+    // Резервируем позицию локально (до синхронизации с Firebase)
+    reservedPositions.current.add(freePositionIndex)
+
     // Получаем координаты из предопределенной позиции
     const position = FLOWER_POSITIONS[freePositionIndex]
 
@@ -73,6 +84,7 @@ function App() {
     const flowerRef = ref(database, `flowers/${flowerData.id}`)
     set(flowerRef, flowerWithPosition)
 
+    console.log('🤖 Зарезервирована позиция:', freePositionIndex)
     return freePositionIndex
   }
 
