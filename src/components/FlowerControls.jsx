@@ -66,9 +66,6 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
     }
 
     createFlowerComposition(userName.trim())
-
-    // Перенаправляем на страницу сада, чтобы увидеть showcase
-    setTimeout(() => navigate('/'), 100)
   }
 
   const plantRandomFlowers = () => {

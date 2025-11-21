@@ -25,6 +25,19 @@ function App() {
           ...data[key],
           id: key
         }))
+
+        // Проверяем, появился ли новый цветок
+        if (flowers.length > 0 && flowersArray.length > flowers.length) {
+          // Находим самый новый цветок (по дате посадки)
+          const newestFlower = flowersArray.reduce((newest, current) => {
+            const newestDate = new Date(newest.plantDate).getTime()
+            const currentDate = new Date(current.plantDate).getTime()
+            return currentDate > newestDate ? current : newest
+          })
+          // Показываем showcase для нового цветка
+          setShowcaseFlower(newestFlower)
+        }
+
         setFlowers(flowersArray)
 
         // Очищаем резервирования - теперь позиции в Firebase
@@ -37,7 +50,7 @@ function App() {
 
     // Отписываемся при размонтировании
     return () => unsubscribe()
-  }, [])
+  }, [flowers])
 
   const addFlower = (flowerData) => {
     // Проверяем лимит цветов (учитываем и зарезервированные)
@@ -84,9 +97,6 @@ function App() {
     // Сохраняем в Firebase
     const flowerRef = ref(database, `flowers/${flowerData.id}`)
     set(flowerRef, flowerWithPosition)
-
-    // Показываем цветок крупным планом
-    setShowcaseFlower(flowerWithPosition)
 
     console.log('🤖 Зарезервирована позиция:', freePositionIndex)
     return freePositionIndex
