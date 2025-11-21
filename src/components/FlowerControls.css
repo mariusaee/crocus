@@ -30,6 +30,8 @@
   gap: 10px;
   margin-bottom: 25px;
   animation: titleGlow 3s ease-in-out infinite;
+  word-wrap: break-word;
+  word-break: break-word;
 }
 
 @keyframes titleGlow {
@@ -117,6 +119,10 @@
   position: relative;
   overflow: hidden;
   width: 100%;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  text-align: center;
 }
 
 .action-button::before {
@@ -323,55 +329,169 @@
 /* Супер маленькие экраны */
 @media (max-width: 280px) {
   .flower-controls-container {
-    padding: 5px;
+    padding: 3px;
   }
 
   .controls-panel {
-    padding: 12px 8px;
-    border-radius: 8px;
+    padding: 10px 6px;
+    border-radius: 6px;
   }
 
   .panel-title {
-    font-size: 16px;
-    gap: 6px;
-    margin-bottom: 12px;
+    font-size: 14px;
+    gap: 5px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
   }
 
   .title-icon {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .control-group {
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
 
   .control-group label {
-    font-size: 13px;
-    margin-bottom: 5px;
+    font-size: 12px;
+    margin-bottom: 4px;
   }
 
   .control-group input[type="text"],
   .control-group select {
-    padding: 8px 10px;
-    font-size: 13px;
-    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 12px;
+    border-radius: 6px;
   }
 
   .button-group-panel {
-    gap: 8px;
-    margin-top: 15px;
+    gap: 6px;
+    margin-top: 12px;
   }
 
   .action-button {
-    padding: 10px 12px;
-    font-size: 13px;
-    min-height: 40px;
-    gap: 5px;
-    border-radius: 10px;
+    padding: 8px 6px;
+    font-size: 11px;
+    min-height: 36px;
+    gap: 4px;
+    border-radius: 8px;
+    flex-wrap: wrap;
   }
 
   .flower-counter {
-    font-size: 14px !important;
-    margin: 6px 0 12px !important;
+    font-size: 12px !important;
+    margin: 6px 0 10px !important;
+  }
+}
+
+/* Экстра маленькие экраны */
+@media (max-width: 240px) {
+  .flower-controls-container {
+    padding: 2px;
+  }
+
+  .controls-panel {
+    padding: 8px 4px;
+    border-radius: 4px;
+  }
+
+  .panel-title {
+    font-size: 12px;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .title-icon {
+    font-size: 16px;
+  }
+
+  .control-group {
+    margin-bottom: 8px;
+  }
+
+  .control-group label {
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+
+  .control-group input[type="text"],
+  .control-group select {
+    padding: 5px 6px;
+    font-size: 11px;
+    border-radius: 4px;
+  }
+
+  .button-group-panel {
+    gap: 5px;
+    margin-top: 10px;
+  }
+
+  .action-button {
+    padding: 6px 4px;
+    font-size: 10px;
+    min-height: 32px;
+    gap: 3px;
+    border-radius: 6px;
+  }
+
+  .flower-counter {
+    font-size: 11px !important;
+    margin: 5px 0 8px !important;
+  }
+}
+
+/* Минимальные экраны */
+@media (max-width: 200px) {
+  .flower-controls-container {
+    padding: 1px;
+  }
+
+  .controls-panel {
+    padding: 6px 3px;
+    border-radius: 3px;
+  }
+
+  .panel-title {
+    font-size: 10px;
+    gap: 3px;
+    margin-bottom: 6px;
+  }
+
+  .title-icon {
+    font-size: 14px;
+  }
+
+  .control-group {
+    margin-bottom: 6px;
+  }
+
+  .control-group label {
+    font-size: 10px;
+    margin-bottom: 2px;
+  }
+
+  .control-group input[type="text"],
+  .control-group select {
+    padding: 4px 5px;
+    font-size: 10px;
+    border-radius: 3px;
+  }
+
+  .button-group-panel {
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .action-button {
+    padding: 5px 3px;
+    font-size: 9px;
+    min-height: 28px;
+    gap: 2px;
+    border-radius: 4px;
+  }
+
+  .flower-counter {
+    font-size: 10px !important;
+    margin: 4px 0 6px !important;
   }
 }
