@@ -120,32 +120,12 @@ function App() {
     remove(flowersRef)
   }
 
-  const removeFirstFiveFlowers = () => {
-    if (flowers.length === 0) return
-
-    // Сортируем цветы по дате посадки (самые старые первыми)
-    const sortedFlowers = [...flowers].sort((a, b) => {
-      const dateA = new Date(a.plantDate).getTime()
-      const dateB = new Date(b.plantDate).getTime()
-      return dateA - dateB
-    })
-
-    // Берём первые 5 (или меньше, если цветов меньше 5)
-    const flowersToRemove = sortedFlowers.slice(0, 5)
-
-    // Удаляем каждый из них
-    flowersToRemove.forEach(flower => {
-      const flowerRef = ref(database, `flowers/${flower.id}`)
-      remove(flowerRef)
-    })
-  }
-
   return (
     <Router basename="/crocus">
       <div className="app">
         <Routes>
           <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} showcaseFlower={showcaseFlower} onCloseShowcase={() => setShowcaseFlower(null)} />} />
-          <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} onRemoveAllFlowers={removeAllFlowers} onRemoveFirstFive={removeFirstFiveFlowers} existingFlowers={flowers} />} />
+          <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} onRemoveAllFlowers={removeAllFlowers} existingFlowers={flowers} />} />
         </Routes>
       </div>
     </Router>

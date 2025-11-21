@@ -82,3 +82,5 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Всегда в конце** давай ссылку на проект: https://mmalyshev.github.io/crocus/
 - При работе с изображениями используй `${import.meta.env.BASE_URL}` для корректных путей
 - Firebase подписки требуют cleanup через `return () => unsubscribe()` в useEffect
+- на сранице /add у нас только управление кнопками. Никаких анимаций там не должно быть. Никаких допольнительных окон тоже.
+Все view на странице с садом /crocus/. Все анимации, цветы, допольнительные окна

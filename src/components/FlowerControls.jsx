@@ -21,21 +21,11 @@ const randomNames = [
   'Maya', 'Nico', 'Owen', 'Piper', 'Reed', 'Sky', 'Theo', 'Ula'
 ]
 
-function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRemoveFirstFive, existingFlowers }) {
+function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, existingFlowers }) {
   const [userName, setUserName] = useState('')
-  const [animationType, setAnimationType] = useState('random')
-  const [swayType, setSwayType] = useState('random')
   const navigate = useNavigate()
 
   const getRandomElement = (arr) => arr[Math.floor(Math.random() * arr.length)]
-
-  const getSelectedAnimation = () => {
-    return animationType === 'random' ? getRandomElement(animations) : animationType
-  }
-
-  const getSelectedSwayType = () => {
-    return swayType === 'random' ? getRandomElement(swayTypes) : swayType
-  }
 
   const createFlowerComposition = (name) => {
     // Создаем только данные о цветке, без координат
@@ -45,8 +35,8 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
       flower: getRandomElement(flowers),
       sign: getRandomElement(signs),
       layout: Math.random() > 0.5 ? 'left-layout' : 'right-layout',
-      animation: getSelectedAnimation(),
-      sway: getSelectedSwayType(),
+      animation: getRandomElement(animations),
+      sway: getRandomElement(swayTypes),
       userName: name,
       plantDate: new Date().toISOString()
     }
@@ -66,56 +56,6 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
     }
 
     createFlowerComposition(userName.trim())
-  }
-
-  const plantRandomFlowers = () => {
-    const availableSlots = MAX_FLOWERS - existingFlowers.length
-
-    if (availableSlots === 0) {
-      alert(`🌻 Сад полон! Достигнут лимит в ${MAX_FLOWERS} цветов.`)
-      return
-    }
-
-    const countToAdd = Math.min(5, availableSlots)
-
-    if (countToAdd < 5) {
-      const confirmed = confirm(`В саду осталось место только для ${countToAdd} цветов. Посадить ${countToAdd}?`)
-      if (!confirmed) return
-    }
-
-    for (let i = 0; i < countToAdd; i++) {
-      setTimeout(() => {
-        const randomName = randomNames[Math.floor(Math.random() * randomNames.length)]
-        createFlowerComposition(randomName)
-      }, i * 100) // Ускорено с 200мс до 100мс
-    }
-  }
-
-  const fillGarden = () => {
-    const availableSlots = MAX_FLOWERS - existingFlowers.length
-
-    if (availableSlots === 0) {
-      alert(`🌻 Сад уже полон! Все ${MAX_FLOWERS} мест заняты.`)
-      return
-    }
-
-    const timeEstimate = Math.ceil(availableSlots * 0.1)
-
-    const confirmed = confirm(
-      `Заполнить весь сад?\n\n` +
-      `Будет посажено: ${availableSlots} цветов\n` +
-      `Время: ~${timeEstimate} сек.\n\n` +
-      `Цветы получат номера от ${existingFlowers.length + 1} до ${MAX_FLOWERS}`
-    )
-    if (!confirmed) return
-
-    const startNumber = existingFlowers.length + 1
-
-    for (let i = 0; i < availableSlots; i++) {
-      setTimeout(() => {
-        createFlowerComposition(String(startNumber + i))
-      }, i * 100) // Ускорено с 200мс до 100мс
-    }
   }
 
   const removeLastFlower = () => {
@@ -152,20 +92,6 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
     }
   }
 
-  const removeFirstFive = () => {
-    if (existingFlowers.length === 0) {
-      alert('🌱 Сад пуст, нечего удалять!')
-      return
-    }
-
-    const countToRemove = Math.min(5, existingFlowers.length)
-    const confirmed = confirm(`Удалить ${countToRemove} самых старых цветов?`)
-    if (confirmed) {
-      onRemoveFirstFive()
-      alert(`🗑️ Удалено ${countToRemove} цветов!`)
-    }
-  }
-
   return (
     <div className="flower-controls-container">
       <div className="controls-panel">
@@ -198,54 +124,12 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
           />
         </div>
 
-        <div className="control-group">
-          <label htmlFor="animationType">🎭 Анимация посадки:</label>
-          <select
-            id="animationType"
-            value={animationType}
-            onChange={(e) => setAnimationType(e.target.value)}
-          >
-            <option value="random">🎲 Случайная</option>
-            <option value="spiral">🌀 Спираль</option>
-            <option value="bounce">⚡ Прыжок</option>
-            <option value="zoom">🔍 Зум</option>
-            <option value="flip">🔄 Переворот</option>
-            <option value="elastic">🎯 Эластичная</option>
-            <option value="wave">🌊 Волна</option>
-          </select>
-        </div>
-
-        <div className="control-group">
-          <label htmlFor="swayType">🍃 Покачивание:</label>
-          <select
-            id="swayType"
-            value={swayType}
-            onChange={(e) => setSwayType(e.target.value)}
-          >
-            <option value="random">🎲 Случайное</option>
-            <option value="gentle">🌸 Нежное</option>
-            <option value="wind">💨 Ветер</option>
-            <option value="dance">💃 Танец</option>
-            <option value="rotate">🔄 Вращение</option>
-            <option value="bounce">⬆️ Подпрыгивание</option>
-          </select>
-        </div>
-
         <div className="button-group-panel">
           <button className="action-button add-one-button" onClick={plantRandomFlower}>
             🌺 Посадить 1 цветок
           </button>
-          <button className="action-button random-button" onClick={plantRandomFlowers}>
-            🌸 Посадить 5 случайных
-          </button>
-          <button className="action-button random-button" onClick={fillGarden}>
-            🌻 Заполнить сад
-          </button>
           <button className="action-button remove-button" onClick={removeLastFlower}>
             🗑️ Удалить последний
-          </button>
-          <button className="action-button remove-button" onClick={removeFirstFive}>
-            🧹 Удалить 5 старых
           </button>
           <button className="action-button remove-all-button" onClick={removeAllFlowers}>
             ❌ Удалить все
