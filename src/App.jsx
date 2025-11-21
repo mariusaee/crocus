@@ -4,6 +4,7 @@ import { ref, onValue, set, remove } from 'firebase/database'
 import { database } from './firebase'
 import GardenField from './components/GardenField'
 import FlowerControls from './components/FlowerControls'
+import FlowerShowcase from './components/FlowerShowcase'
 import { FLOWER_POSITIONS, MAX_FLOWERS } from './utils/flowerPositions'
 import './App.css'
 
@@ -128,9 +129,14 @@ function App() {
     <Router basename="/crocus">
       <div className="app">
         <Routes>
-          <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} showcaseFlower={showcaseFlower} onCloseShowcase={() => setShowcaseFlower(null)} />} />
+          <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} />} />
           <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} onRemoveAllFlowers={removeAllFlowers} onRemoveFirstFive={removeFirstFiveFlowers} existingFlowers={flowers} />} />
         </Routes>
+
+        {/* Глобальный Showcase нового цветка */}
+        {showcaseFlower && (
+          <FlowerShowcase flower={showcaseFlower} onClose={() => setShowcaseFlower(null)} />
+        )}
       </div>
     </Router>
   )

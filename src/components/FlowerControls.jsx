@@ -37,7 +37,7 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
     return swayType === 'random' ? getRandomElement(swayTypes) : swayType
   }
 
-  const createFlowerComposition = (name, shouldNavigate = false) => {
+  const createFlowerComposition = (name) => {
     // Создаем только данные о цветке, без координат
     // Координаты будут добавлены в GardenField на основе его размеров
     const flowerData = {
@@ -52,11 +52,6 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
     }
 
     onAddFlower(flowerData)
-
-    // Переходим на главную страницу, чтобы увидеть showcase
-    if (shouldNavigate) {
-      setTimeout(() => navigate('/'), 100)
-    }
   }
 
   const plantRandomFlower = () => {
@@ -70,7 +65,7 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, onRem
       return
     }
 
-    createFlowerComposition(userName.trim(), true)
+    createFlowerComposition(userName.trim())
   }
 
   const plantRandomFlowers = () => {
