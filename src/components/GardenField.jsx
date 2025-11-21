@@ -1,7 +1,8 @@
 import { useRef } from 'react'
+import FlowerShowcase from './FlowerShowcase'
 import './GardenField.css'
 
-function GardenField({ flowers, onRemoveFlower }) {
+function GardenField({ flowers, onRemoveFlower, showcaseFlower, onCloseShowcase }) {
   const gardenRef = useRef(null)
 
 
@@ -103,6 +104,11 @@ function GardenField({ flowers, onRemoveFlower }) {
 
       {/* Тултип */}
       <div className="info-tooltip" id="tooltip"></div>
+
+      {/* Showcase нового цветка */}
+      {showcaseFlower && (
+        <FlowerShowcase flower={showcaseFlower} onClose={onCloseShowcase} />
+      )}
     </div>
   )
 }

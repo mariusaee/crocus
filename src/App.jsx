@@ -9,6 +9,7 @@ import './App.css'
 
 function App() {
   const [flowers, setFlowers] = useState([])
+  const [showcaseFlower, setShowcaseFlower] = useState(null)
   // Локальное отслеживание зарезервированных позиций (для быстрого добавления нескольких цветов)
   const reservedPositions = useRef(new Set())
 
@@ -84,6 +85,9 @@ function App() {
     const flowerRef = ref(database, `flowers/${flowerData.id}`)
     set(flowerRef, flowerWithPosition)
 
+    // Показываем цветок крупным планом
+    setShowcaseFlower(flowerWithPosition)
+
     console.log('🤖 Зарезервирована позиция:', freePositionIndex)
     return freePositionIndex
   }
@@ -124,7 +128,7 @@ function App() {
     <Router basename="/crocus">
       <div className="app">
         <Routes>
-          <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} />} />
+          <Route path="/" element={<GardenField flowers={flowers} onRemoveFlower={removeFlower} showcaseFlower={showcaseFlower} onCloseShowcase={() => setShowcaseFlower(null)} />} />
           <Route path="/add" element={<FlowerControls onAddFlower={addFlower} onRemoveFlower={removeFlower} onRemoveAllFlowers={removeAllFlowers} onRemoveFirstFive={removeFirstFiveFlowers} existingFlowers={flowers} />} />
         </Routes>
       </div>
