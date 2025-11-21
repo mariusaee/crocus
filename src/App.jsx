@@ -12,6 +12,8 @@ function App() {
   const [showcaseFlower, setShowcaseFlower] = useState(null)
   // Локальное отслеживание зарезервированных позиций (для быстрого добавления нескольких цветов)
   const reservedPositions = useRef(new Set())
+  // Отслеживание предыдущего количества цветов для обнаружения новых
+  const previousFlowersCount = useRef(0)
 
   // Подписка на изменения в Firebase в реальном времени
   useEffect(() => {
@@ -27,7 +29,7 @@ function App() {
         }))
 
         // Проверяем, появился ли новый цветок
-        if (flowers.length > 0 && flowersArray.length > flowers.length) {
+        if (flowersArray.length > previousFlowersCount.current) {
           // Находим самый новый цветок (по дате посадки)
           const newestFlower = flowersArray.reduce((newest, current) => {
             const newestDate = new Date(newest.plantDate).getTime()
@@ -35,14 +37,18 @@ function App() {
             return currentDate > newestDate ? current : newest
           })
           // Показываем showcase для нового цветка
+          console.log('🤖 Показываем showcase для нового цветка:', newestFlower.userName)
           setShowcaseFlower(newestFlower)
         }
 
+        // Обновляем счётчик
+        previousFlowersCount.current = flowersArray.length
         setFlowers(flowersArray)
 
         // Очищаем резервирования - теперь позиции в Firebase
         reservedPositions.current.clear()
       } else {
+        previousFlowersCount.current = 0
         setFlowers([])
         reservedPositions.current.clear()
       }
@@ -50,7 +56,7 @@ function App() {
 
     // Отписываемся при размонтировании
     return () => unsubscribe()
-  }, [flowers])
+  }, [])
 
   const addFlower = (flowerData) => {
     // Проверяем лимит цветов (учитываем и зарезервированные)
