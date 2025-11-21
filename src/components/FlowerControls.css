@@ -1,16 +1,23 @@
+* {
+  box-sizing: border-box;
+}
+
 .flower-controls-container {
   display: flex;
-  height: calc(100vh - 60px);
-  gap: 0;
+  min-height: calc(100vh - 60px);
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
 }
 
 .controls-panel {
-  width: 350px;
+  width: 100%;
+  max-width: 400px;
   background: linear-gradient(135deg, rgba(147, 112, 219, 0.98) 0%, rgba(138, 43, 226, 0.98) 100%);
   padding: 30px 20px;
   overflow-y: auto;
   box-shadow: 2px 0 20px rgba(0,0,0,0.2);
-  z-index: 10;
+  border-radius: 20px;
 }
 
 .panel-title {
@@ -156,26 +163,15 @@
   background: linear-gradient(135deg, #48c774, #3abb67);
 }
 
-/* Планшеты и маленькие ноутбуки */
-@media (max-width: 1024px) {
-  .controls-panel {
-    width: 100%;
-    max-width: 100%;
-  }
-}
-
 /* Мобильные устройства */
 @media (max-width: 768px) {
   .flower-controls-container {
-    height: auto;
-    min-height: calc(100vh - 60px);
+    padding: 15px;
   }
 
   .controls-panel {
-    width: 100%;
     padding: 25px 20px;
-    box-shadow: none;
-    min-height: calc(100vh - 60px);
+    border-radius: 16px;
   }
 
   .panel-title {
@@ -229,8 +225,13 @@
 
 /* Маленькие мобильные устройства */
 @media (max-width: 480px) {
+  .flower-controls-container {
+    padding: 10px;
+  }
+
   .controls-panel {
     padding: 20px 16px;
+    border-radius: 12px;
   }
 
   .panel-title {
@@ -266,24 +267,111 @@
 
 /* Очень маленькие экраны */
 @media (max-width: 360px) {
+  .flower-controls-container {
+    padding: 8px;
+  }
+
   .controls-panel {
     padding: 16px 12px;
+    border-radius: 10px;
   }
 
   .panel-title {
     font-size: 18px;
     gap: 8px;
+    margin-bottom: 15px;
+  }
+
+  .title-icon {
+    font-size: 22px;
+  }
+
+  .control-group {
+    margin-bottom: 15px;
+  }
+
+  .control-group label {
+    font-size: 14px;
+    margin-bottom: 6px;
   }
 
   .control-group input[type="text"],
   .control-group select {
     padding: 10px 12px;
     font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .button-group-panel {
+    gap: 10px;
+    margin-top: 20px;
   }
 
   .action-button {
     padding: 12px 16px;
     font-size: 14px;
     min-height: 44px;
+    gap: 6px;
+  }
+
+  .flower-counter {
+    font-size: 16px !important;
+    margin: 8px 0 16px !important;
+  }
+}
+
+/* Супер маленькие экраны */
+@media (max-width: 280px) {
+  .flower-controls-container {
+    padding: 5px;
+  }
+
+  .controls-panel {
+    padding: 12px 8px;
+    border-radius: 8px;
+  }
+
+  .panel-title {
+    font-size: 16px;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .title-icon {
+    font-size: 20px;
+  }
+
+  .control-group {
+    margin-bottom: 12px;
+  }
+
+  .control-group label {
+    font-size: 13px;
+    margin-bottom: 5px;
+  }
+
+  .control-group input[type="text"],
+  .control-group select {
+    padding: 8px 10px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+
+  .button-group-panel {
+    gap: 8px;
+    margin-top: 15px;
+  }
+
+  .action-button {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-height: 40px;
+    gap: 5px;
+    border-radius: 10px;
+  }
+
+  .flower-counter {
+    font-size: 14px !important;
+    margin: 6px 0 12px !important;
   }
 }
