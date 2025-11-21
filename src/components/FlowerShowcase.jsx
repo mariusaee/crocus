@@ -1,16 +1,6 @@
-import { useEffect } from 'react'
 import './FlowerShowcase.css'
 
 function FlowerShowcase({ flower, onClose }) {
-  useEffect(() => {
-    // Автоматически закрыть через 10 секунд
-    const timer = setTimeout(() => {
-      onClose()
-    }, 10000)
-
-    return () => clearTimeout(timer)
-  }, [onClose])
-
   if (!flower) return null
 
   const formatDate = (dateString) => {
@@ -25,8 +15,8 @@ function FlowerShowcase({ flower, onClose }) {
   }
 
   return (
-    <div className="flower-showcase-overlay" onClick={onClose}>
-      <div className="flower-showcase-content" onClick={(e) => e.stopPropagation()}>
+    <div className="flower-showcase-overlay">
+      <div className="flower-showcase-content">
         <div className="showcase-flower">
           <img
             className="showcase-flower-image"
@@ -38,7 +28,6 @@ function FlowerShowcase({ flower, onClose }) {
         <div className="showcase-info">
           <h2 className="showcase-name">{flower.userName}</h2>
           <p className="showcase-date">Посажен: {formatDate(flower.plantDate)}</p>
-          <p className="showcase-hint">Нажмите в любом месте, чтобы закрыть</p>
         </div>
 
         <button className="showcase-close" onClick={onClose}>×</button>
