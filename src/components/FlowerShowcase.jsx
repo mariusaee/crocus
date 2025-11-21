@@ -15,8 +15,8 @@ function FlowerShowcase({ flower, onClose }) {
   }
 
   return (
-    <div className="flower-showcase-overlay">
-      <div className="flower-showcase-content">
+    <div className="flower-showcase-overlay" onClick={onClose}>
+      <div className="flower-showcase-content" onClick={(e) => e.stopPropagation()}>
         <div className="showcase-flower">
           <img
             className="showcase-flower-image"
