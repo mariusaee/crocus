@@ -5,19 +5,24 @@
 .flower-controls-container {
   display: flex;
   min-height: calc(100vh - 60px);
+  max-height: calc(100vh - 60px);
   justify-content: center;
   align-items: flex-start;
   padding: 20px;
+  overflow: hidden;
 }
 
 .controls-panel {
   width: 100%;
   max-width: 400px;
+  max-height: 100%;
   background: linear-gradient(135deg, rgba(147, 112, 219, 0.98) 0%, rgba(138, 43, 226, 0.98) 100%);
   padding: 30px 20px;
   overflow-y: auto;
+  overflow-x: hidden;
   box-shadow: 2px 0 20px rgba(0,0,0,0.2);
   border-radius: 20px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .panel-title {
@@ -173,11 +178,13 @@
 @media (max-width: 768px) {
   .flower-controls-container {
     padding: 15px;
+    max-height: calc(100vh - 60px);
   }
 
   .controls-panel {
     padding: 25px 20px;
     border-radius: 16px;
+    max-height: 100%;
   }
 
   .panel-title {
@@ -233,11 +240,13 @@
 @media (max-width: 480px) {
   .flower-controls-container {
     padding: 10px;
+    max-height: calc(100vh - 60px);
   }
 
   .controls-panel {
     padding: 20px 16px;
     border-radius: 12px;
+    max-height: 100%;
   }
 
   .panel-title {
@@ -275,11 +284,13 @@
 @media (max-width: 360px) {
   .flower-controls-container {
     padding: 8px;
+    max-height: calc(100vh - 60px);
   }
 
   .controls-panel {
     padding: 16px 12px;
     border-radius: 10px;
+    max-height: 100%;
   }
 
   .panel-title {
@@ -330,11 +341,13 @@
 @media (max-width: 280px) {
   .flower-controls-container {
     padding: 3px;
+    max-height: calc(100vh - 60px);
   }
 
   .controls-panel {
     padding: 10px 6px;
     border-radius: 6px;
+    max-height: 100%;
   }
 
   .panel-title {
@@ -388,11 +401,13 @@
 @media (max-width: 240px) {
   .flower-controls-container {
     padding: 2px;
+    max-height: calc(100vh - 60px);
   }
 
   .controls-panel {
     padding: 8px 4px;
     border-radius: 4px;
+    max-height: 100%;
   }
 
   .panel-title {
@@ -444,11 +459,13 @@
 @media (max-width: 200px) {
   .flower-controls-container {
     padding: 1px;
+    max-height: calc(100vh - 60px);
   }
 
   .controls-panel {
     padding: 6px 3px;
     border-radius: 3px;
+    max-height: 100%;
   }
 
   .panel-title {
