@@ -29,17 +29,18 @@ function App() {
         }))
 
         // Проверяем, появился ли новый цветок
-        if (flowersArray.length > previousFlowersCount.current) {
-          // Находим самый новый цветок (по дате посадки)
-          const newestFlower = flowersArray.reduce((newest, current) => {
-            const newestDate = new Date(newest.plantDate).getTime()
-            const currentDate = new Date(current.plantDate).getTime()
-            return currentDate > newestDate ? current : newest
-          })
-          // Показываем showcase для нового цветка
-          console.log('🤖 Показываем showcase для нового цветка:', newestFlower.userName)
-          setShowcaseFlower(newestFlower)
-        }
+        // ВРЕМЕННО ОТКЛЮЧЕНО ДЛЯ ТЕСТОВ
+        // if (flowersArray.length > previousFlowersCount.current) {
+        //   // Находим самый новый цветок (по дате посадки)
+        //   const newestFlower = flowersArray.reduce((newest, current) => {
+        //     const newestDate = new Date(newest.plantDate).getTime()
+        //     const currentDate = new Date(current.plantDate).getTime()
+        //     return currentDate > newestDate ? current : newest
+        //   })
+        //   // Показываем showcase для нового цветка
+        //   console.log('🤖 Показываем showcase для нового цветка:', newestFlower.userName)
+        //   setShowcaseFlower(newestFlower)
+        // }
 
         // Обновляем счётчик
         previousFlowersCount.current = flowersArray.length
