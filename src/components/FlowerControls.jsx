@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { MAX_FLOWERS } from '../utils/flowerPositions'
 import './FlowerControls.css'
 
-const flowers = ['flower1.png', 'flower2.png']
+const flowers = ['flower1.png', 'flower2.png', 'flower4.png', 'flower5.png', 'flower6.png', 'flower7.png', 'flower8.png', 'flower9.png', 'flower10.png']
 const signs = ['sign1.png', 'sign2.png', 'sign3.png']
 const animations = ['spiral', 'bounce', 'zoom', 'flip', 'elastic', 'wave']
 const swayTypes = ['gentle', 'wind', 'dance', 'rotate', 'bounce']
