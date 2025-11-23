@@ -35,6 +35,7 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, exist
       animation: getRandomElement(animations),
       sway: getRandomElement(swayTypes),
       scale: 0.85 + Math.random() * 0.3, // Размер от 0.85 до 1.15
+      flipped: Math.random() > 0.5, // 50% вероятность зеркального отражения
       userName: name,
       plantDate: new Date().toISOString()
     }
