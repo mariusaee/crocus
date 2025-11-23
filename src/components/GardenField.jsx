@@ -76,7 +76,7 @@ function GardenField({ flowers, onRemoveFlower, showcaseFlower, onCloseShowcase 
       <div style={{
         position: 'absolute',
         left: '2%',
-        top: '33%',
+        top: '48%',
         width: '96%',
         height: '50%',
         border: '3px solid red',
