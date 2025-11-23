@@ -78,7 +78,7 @@ function GardenField({ flowers, onRemoveFlower, showcaseFlower, onCloseShowcase 
         left: '2%',
         top: '33%',
         width: '96%',
-        height: '65%',
+        height: '50%',
         border: '3px solid red',
         pointerEvents: 'none',
         zIndex: 1000,
