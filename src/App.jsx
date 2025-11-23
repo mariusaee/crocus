@@ -72,20 +72,22 @@ function App() {
       ...reservedPositions.current
     ])
 
-    // Находим первую свободную позицию
-    let freePositionIndex = -1
+    // Находим все свободные позиции
+    const freePositions = []
     for (let i = 0; i < FLOWER_POSITIONS.length; i++) {
       if (!occupiedPositions.has(i)) {
-        freePositionIndex = i
-        break
+        freePositions.push(i)
       }
     }
 
     // Если нет свободных позиций, выходим
-    if (freePositionIndex === -1) {
+    if (freePositions.length === 0) {
       console.log('🤖 Нет свободных позиций')
       return null
     }
+
+    // Выбираем случайную позицию из свободных
+    const freePositionIndex = freePositions[Math.floor(Math.random() * freePositions.length)]
 
     // Резервируем позицию локально (до синхронизации с Firebase)
     reservedPositions.current.add(freePositionIndex)
