@@ -60,6 +60,14 @@ function GardenField({ flowers, onRemoveFlower, showcaseFlower, onCloseShowcase 
 
   return (
     <div className="garden-area" ref={gardenRef}>
+      {/* Логотип компании */}
+      <div className="company-logo">
+        <img
+          src={`${import.meta.env.BASE_URL}main_logotype.svg`}
+          alt="Логотип компании"
+        />
+      </div>
+
       {/* Облака */}
       <div className="cloud cloud1"></div>
       <div className="cloud cloud2"></div>
