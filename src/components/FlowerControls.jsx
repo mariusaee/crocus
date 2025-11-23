@@ -117,6 +117,11 @@ function FlowerControls({ onAddFlower, onRemoveFlower, onRemoveAllFlowers, exist
             id="userName"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                plantRandomFlower()
+              }
+            }}
             placeholder="Введите имя..."
             maxLength={12}
             autoFocus
