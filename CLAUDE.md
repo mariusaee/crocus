@@ -60,7 +60,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
   id: "timestamp_randomstring",
   x: number,              // координата X (100 до viewport width - 200)
   y: number,              // координата Y (50%-90% от высоты viewport)
-  flower: "flower1.png" | "flower2.png",
+  flower: "flowerP.png" | "flowerPW.png" | "flowerW.png" | "flowerWYP.png" | "flowerY.png" | "flowerYP.png" | "flowerYW.png",
   sign: "sign1.png" | "sign2.png" | "sign3.png",
   layout: "left-layout" | "right-layout",
   animation: "spiral" | "bounce" | "zoom" | "flip" | "elastic" | "wave",
