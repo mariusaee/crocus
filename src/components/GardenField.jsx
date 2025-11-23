@@ -96,6 +96,7 @@ function GardenField({ flowers, onRemoveFlower, showcaseFlower, onCloseShowcase 
               className={`flower-image sway-${flower.sway}`}
               src={`${import.meta.env.BASE_URL}${flower.flower}`}
               alt="Цветок"
+              style={{ transform: `scale(${flower.scale || 1})` }}
             />
           </div>
         )
